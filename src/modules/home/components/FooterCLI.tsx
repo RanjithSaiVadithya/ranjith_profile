@@ -12,8 +12,8 @@ export function FooterCLI() {
   
   const [terminalLogs, setTerminalLogs] = useState<string[]>([
     "SYS_READY: Interactive root terminal initialized.",
-    "Welcome to RSP_TERMINAL_V2.",
-    "Type 'help' to view available system commands.",
+    "Welcome to RPS Terminal.",
+    "Try typing 'contact' to initiate the communication flow, or 'help' for commands.",
   ]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -46,7 +46,8 @@ export function FooterCLI() {
           } else if (cmd === "clear") {
               setTerminalLogs([
                 "SYS_READY: Interactive root terminal initialized.",
-                "Type 'help' to view available system commands."
+                "Welcome to RPS Terminal.",
+                "Try typing 'contact' to initiate the communication flow, or 'help' for commands."
               ]);
           } else if (cmd === "help") {
               setTerminalLogs(prev => [

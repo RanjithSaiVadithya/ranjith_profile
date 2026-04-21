@@ -14,7 +14,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="w-full min-h-screen overflow-x-hidden"
+      className={`w-full min-h-screen overflow-x-hidden ${pathname !== '/' ? 'pt-32 px-4 md:px-8 pb-12 box-border' : ''}`}
     >
       {children}
     </motion.div>
