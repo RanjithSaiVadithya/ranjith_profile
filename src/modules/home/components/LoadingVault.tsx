@@ -5,13 +5,27 @@ import { useEffect, useState } from "react";
 
 export function LoadingVault({ onComplete }: { onComplete: () => void }) {
   const sequence = [
-    "C",
-    "JAVA",
-    "PYTHON",
-    "HTML/CSS",
-    "MICROSERVICES",
-    "FULL STACK",
-    "RANJITH SAI",
+    "SYS.INIT_SEQUENCE",
+    "ESTABLISHING_CONNECTION",
+    "DB_AUTH: MYSQL",
+    "CACHE_LAYER: REDIS",
+    "JAVA_SPRING_CORE",
+    "LARAVEL_APIS",
+    "REACT_UI_RENDER",
+    "TAILWIND_V3",
+    "SFTP_BANK_ACCESS",
+    "RAZORPAY_GTY",
+    "WHATSAPP_BUS_API",
+    "N8N_AUTOMATION_CLI",
+    "PRAXO_CREATOR_ECON",
+    "RIDE_WHEELS_RENTALS",
+    "PET_CARE_ECOMM",
+    "PALLAKI_EVENT_SVC",
+    "ATAL_INCUBATION_DATA",
+    "RIGHTWAY_PHARMA",
+    "MICROSERVICES_SYNC",
+    "FULL_STACK_DEPLOYED",
+    "RANJITH SAI VADITHYA"
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,10 +35,10 @@ export function LoadingVault({ onComplete }: { onComplete: () => void }) {
     if (currentIndex < sequence.length - 1) {
       const timer = setTimeout(() => {
         setCurrentIndex((prev) => prev + 1);
-      }, 150); // fast scramble
+      }, 200); // 200ms per word = 4 seconds total
       return () => clearTimeout(timer);
     } else {
-      // Reached the end ("RANJITH SAI")
+      // Reached the end ("RANJITH SAI VADITHYA")
       const finalTimer = setTimeout(() => {
         setSplit(true);
         setTimeout(onComplete, 800); // 800ms for vault to open before destroying

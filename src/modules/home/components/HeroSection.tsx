@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { animations } from "@/core/AnimationEngine";
+import Image from "next/image";
 
 export function HeroSection() {
   return (
@@ -60,32 +61,35 @@ export function HeroSection() {
         </div>
 
         {/* IMAGE UPLOAD SECTION */}
-        <div className="hidden lg:flex w-[350px] h-[450px] border border-[#222] relative group overflow-hidden">
+        <div className="hidden lg:flex w-[350px] h-[450px] border border-[#222] relative group overflow-hidden bg-[#050505] cursor-crosshair">
            {/* Cyber Borders */}
-           <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-accent-energy z-20" />
-           <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-accent-energy z-20" />
+           <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-accent-energy z-30 transition-all duration-500 group-hover:w-full group-hover:h-full group-hover:border-accent-energy/30 pointer-events-none" />
+           <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-accent-energy z-30 transition-all duration-500 group-hover:w-full group-hover:h-full group-hover:border-accent-energy/30 pointer-events-none" />
            
-           <div className="absolute inset-0 bg-[#050505] grayscale group-hover:grayscale-0 transition-all duration-700 z-10 flex items-center justify-center">
+           <div className="absolute inset-0 z-10 flex items-center justify-center">
               {/* Scanline Effect */}
               <motion.div 
-                 className="absolute left-0 w-full h-[2px] bg-accent-energy/60 shadow-[0_0_15px_#00F2FF] z-30" 
+                 className="absolute left-0 w-full h-[2px] bg-accent-energy/60 shadow-[0_0_15px_#00F2FF] z-40 pointer-events-none" 
                  animate={{ top: ["0%", "100%", "0%"] }} 
                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }} 
               />
               
-              {/* Image instructions if no image is supplied natively */}
-              <div className="absolute font-mono text-[10px] text-[#444] text-center px-4 leading-loose z-0">
-                [ REPLACE /public/profile.jpg ] <br/>
-                &gt; AWAITING_VISUAL_DATA <br/>
-                &gt; REQUIRED_RATIO: PORTRAIT
+              {/* Default Hidden Text */}
+              <div className="absolute font-mono text-[10px] text-[#444] text-center px-4 leading-loose z-10 transition-opacity duration-300 group-hover:opacity-0 flex flex-col items-center justify-center">
+                <div className="w-12 h-12 border-2 border-[#222] rounded-full flex items-center justify-center mb-4">
+                  <div className="w-2 h-2 bg-[#444] rounded-full animate-pulse" />
+                </div>
+                &gt; VISUAL_DATA_ENCRYPTED <br/>
+                &gt; HOVER_TO_DECRYPT <br/>
               </div>
 
-              {/* The Image (falls back if file is missing because Next handles it via standard img tag locally unless explicitly blocked) */}
-              <img 
-                src="/profile.jpg" 
+              {/* The Image (Reveals strictly as a dark grayscale asset on hover) */}
+              <Image 
+                src="/dev_profile.png" 
                 alt="Ranjith Sai" 
-                className="w-full h-full object-cover z-20 relative opacity-80 mix-blend-lighten"
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                fill
+                priority
+                className="object-cover z-20 grayscale brightness-50 contrast-150 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none mix-blend-luminosity"
               />
            </div>
         </div>
