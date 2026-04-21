@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #F8FAFC;
+    --foreground: #0F172A;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    /* Remove default scrollbar for cinematic feel, or customize it */
+    scrollbar-width: thin;
+    scrollbar-color: #0F172A #F8FAFC;
+  }
+
+  /* Webkit custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F8FAFC;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0F172A;
+    border-radius: 0px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
