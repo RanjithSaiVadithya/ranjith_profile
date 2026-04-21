@@ -10,19 +10,19 @@ export function ProjectsModule() {
   return (
     <div className="w-full max-w-7xl mx-auto flex flex-col gap-16 pt-12">
       {/* HEADER */}
-      <motion.div variants={animations.slideLeft} initial="initial" animate="animate" className="flex justify-between items-end border-b-2 border-text-muted/20 pb-4">
+      <motion.div variants={animations.slideLeft} initial="initial" animate="animate" className="flex flex-col md:flex-row md:justify-between md:items-end border-b-2 border-text-muted/20 pb-4 gap-4">
         <div>
-          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">02 // THE_VAULT</h2>
-          <div className="w-24 h-2 bg-accent-energy mt-2" />
+          <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight">02 // SYS_PROJECTS</h2>
+          <div className="w-24 h-2 bg-text-primary mt-2" />
         </div>
         
         {/* Filter Console */}
-        <div className="font-mono text-xs flex gap-4 text-text-secondary">
+        <div className="font-mono text-xs flex gap-4 text-text-secondary overflow-x-auto pb-2 md:pb-0">
           {["ALL_SYSTEMS", "MICROSERVICES", "FRONTEND", "FULLSTACK"].map((f) => (
             <button 
               key={f}
               onClick={() => setFilter(f)}
-              className={`hover:text-text-primary transition-colors ${filter === f ? "text-accent-energy font-bold border-b border-accent-energy" : ""}`}
+              className={`hover:text-text-primary transition-colors ${filter === f ? "text-accent-energy font-bold border-b border-accent-energy" : ""} whitespace-nowrap`}
             >
               [{f}]
             </button>

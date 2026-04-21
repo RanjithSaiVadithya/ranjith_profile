@@ -20,12 +20,12 @@ export function ProjectPreview() {
       <div className="max-w-6xl w-full px-6 md:px-8">
         <div className="flex justify-between items-end mb-8 md:mb-12 pb-2 border-b-2 border-[#333]">
            <motion.h2 
-             className="text-white font-mono text-2xl md:text-4xl uppercase tracking-widest"
+             className="text-[#94a3b8] font-mono text-2xl md:text-4xl uppercase tracking-widest mb-8 md:mb-16 pb-2 border-b-2 border-surface-card"
              initial={{ opacity: 0, x: -20 }}
              whileInView={{ opacity: 1, x: 0 }}
              viewport={{ once: true }}
            >
-             02 // THE_VAULT
+             02 // SYS_PROJECTS
            </motion.h2>
            <button onClick={() => router.push('/projects')} className="hidden md:block text-accent-energy font-mono text-xs hover:text-white transition-colors uppercase tracking-widest">
              [ VIEW_ALL_SYSTEMS ]

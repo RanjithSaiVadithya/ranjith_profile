@@ -20,7 +20,7 @@ export function Navigation() {
   const links = [
     { href: "/", label: "00//SYS_HOME" },
     { href: "/about", label: "01//ABOUT" },
-    { href: "/projects", label: "02//VAULT" },
+    { href: "/projects", label: "02//PROJECTS" },
     { href: "/skills", label: "03//SKILLS" },
     { href: "/feed", label: "04//FEED" },
   ];
