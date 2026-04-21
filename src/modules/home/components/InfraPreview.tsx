@@ -164,7 +164,7 @@ function AnimatePresenceWrapper({ logs }: { logs: string[] }) {
           key={`${log}-${index}`}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          className="mb-3 whitespace-nowrap overflow-hidden text-ellipsis"
+          className="mb-2 md:mb-3 text-[10px] md:text-sm whitespace-normal md:whitespace-nowrap overflow-hidden md:text-ellipsis leading-tight"
         >
           <span className="text-[#444] mr-3" suppressHydrationWarning>
             [{new Date().toISOString().split('T')[1].split('.')[0]}]

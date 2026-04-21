@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoadingVault } from "./components/LoadingVault";
 import { HeroSection } from "./components/HeroSection";
 import { CareerPreview } from "./components/CareerPreview";
@@ -11,6 +11,13 @@ import { FooterCLI } from "./components/FooterCLI";
 
 export function HomeModule() {
   const [sequenceComplete, setSequenceComplete] = useState(false);
+
+  useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="w-full relative bg-black overflow-visible">
