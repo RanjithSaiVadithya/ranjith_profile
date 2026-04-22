@@ -74,22 +74,13 @@ export function HeroSection() {
                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }} 
               />
               
-              {/* Default Hidden Text */}
-              <div className="absolute font-mono text-[10px] text-[#444] text-center px-4 leading-loose z-10 transition-opacity duration-300 group-hover:opacity-0 flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-2 border-[#222] rounded-full flex items-center justify-center mb-4">
-                  <div className="w-2 h-2 bg-[#444] rounded-full animate-pulse" />
-                </div>
-                &gt; VISUAL_DATA_ENCRYPTED <br/>
-                &gt; HOVER_TO_DECRYPT <br/>
-              </div>
-
-              {/* The Image (Reveals strictly as a dark grayscale asset on hover) */}
+              {/* The Image (Always visible, dark theme matched) */}
               <Image 
                 src="/dev_profile.png" 
                 alt="Ranjith Sai" 
                 fill
                 priority
-                className="object-cover z-20 grayscale brightness-50 contrast-150 opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none mix-blend-luminosity"
+                className="object-cover z-20 pointer-events-none grayscale brightness-75 contrast-125 mix-blend-luminosity opacity-90"
               />
            </div>
         </div>

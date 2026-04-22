@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { animations } from "@/core/AnimationEngine";
 import { TimelineSection } from "../home/components/TimelineSection";
 
@@ -165,12 +166,13 @@ export function AboutModule() {
         </div>
       </section>
 
-      {/* SEC 3: CELESTIORA */}
+      {/* SEC 3: TECHNICAL ARSENAL & PLATFORMS */}
       <section>
-        <h3 className="font-mono text-xl font-bold uppercase mb-8 border-b-2 border-text-muted/20 pb-2">SEC_3: Celestiora Hub</h3>
-        <div className="w-full min-h-[300px] bg-surface-dark flex items-center justify-center relative overflow-hidden group">
-          <div className="absolute inset-0 grid grid-cols-4 grid-rows-2">
-            {[...Array(8)].map((_, i) => (
+        <h3 className="font-mono text-xl font-bold uppercase mb-8 border-b-2 border-text-muted/20 pb-2">SEC_3: Technical Arsenal & Integrations</h3>
+        <div className="w-full min-h-[500px] bg-surface-dark relative overflow-hidden group p-6 md:p-12">
+          {/* Interactive Background Grid Expanded */}
+          <div className="absolute inset-0 grid grid-cols-3 md:grid-cols-6 grid-rows-4">
+            {[...Array(24)].map((_, i) => (
               <motion.div 
                 key={i}
                 className="border border-background-main/5 bg-background-main/5"
@@ -179,15 +181,57 @@ export function AboutModule() {
               />
             ))}
           </div>
-          <motion.div 
-            className="z-10 bg-background-main text-text-primary px-8 py-6 max-w-md border-b-4 border-accent-secondary"
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-          >
-            <h4 className="font-black text-2xl uppercase mb-2">Spider Hit Platform</h4>
-            <p className="font-mono text-sm text-text-secondary">Delivering full-stack enterprise dashboards, modular APIs, and e-commerce scale solutions using Laravel & React.</p>
-          </motion.div>
+          
+          {/* Floating Showcase Cards Container */}
+          <div className="z-10 relative grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 w-full h-full">
+            {/* Card 1: Architectures */}
+            <motion.div 
+              className="bg-background-main text-text-primary px-8 py-6 border-b-4 border-accent-energy shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-center"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: 0.1 }}
+            >
+              <h4 className="font-black text-xl uppercase mb-2">Microservice Infrastructure</h4>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Engineered distributed nodes and core routing proxies. Designed resilient APIs, asynchronous job processing, and scalable fault-tolerant data layers.</p>
+            </motion.div>
+
+            {/* Card 2: Spider Hit / Enterprise */}
+            <motion.div 
+              className="bg-background-main text-text-primary px-8 py-6 border-b-4 border-accent-primary shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-center md:translate-y-12"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: 0.2 }}
+            >
+              <h4 className="font-black text-xl uppercase mb-2">Spider Hit Platform</h4>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Delivering full-stack enterprise dashboards, modular systems, and high-volume e-commerce solutions utilizing advanced Laravel & React state.</p>
+            </motion.div>
+
+            {/* Card 3: Integrations */}
+            <motion.div 
+              className="bg-background-main text-text-primary px-8 py-6 border-b-4 border-accent-secondary shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-center"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: 0.3 }}
+            >
+              <h4 className="font-black text-xl uppercase mb-2">Pipeline Integrations</h4>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Seamlessly connected 3rd-party tools. Implemented Razorpay payment gateways, WhatsApp Business APIs, and automated N8N workflow clusters.</p>
+            </motion.div>
+
+            {/* Card 4: Data Layer */}
+            <motion.div 
+              className="bg-background-main text-text-primary px-8 py-6 border-b-4 border-accent-warning shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-center md:translate-y-12"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: 0.4 }}
+            >
+              <h4 className="font-black text-xl uppercase mb-2">OptimiZED Data Layers</h4>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Optimized complex relational structures in MySQL alongside Redis caching layers to radically reduce payload latency on critical read-paths.</p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -202,9 +246,9 @@ export function AboutModule() {
             I approach software architecture like mechanical engineering. Every microservice, state object, and database call is a gear in a larger system. It must be efficient, fault-tolerant, and exceptionally designed.
           </p>
           
-          <button className="mt-8 px-6 py-3 bg-accent-primary text-surface-card font-bold font-mono tracking-widest uppercase hover:bg-surface-dark hover:text-background-main transition-colors border-2 border-transparent hover:border-accent-primary">
+          <Link href="/contact" className="mt-8 px-6 py-3 bg-accent-primary text-surface-card font-bold font-mono tracking-widest uppercase hover:bg-surface-dark hover:text-background-main transition-colors border-2 border-transparent hover:border-accent-primary inline-block">
             INITIALIZE_CONTACT
-          </button>
+          </Link>
         </div>
       </section>
 

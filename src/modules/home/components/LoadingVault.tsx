@@ -77,7 +77,7 @@ export function LoadingVault({ onComplete }: { onComplete: () => void }) {
         initial={{ opacity: 0.5, filter: "blur(4px)" }}
         animate={{ opacity: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.1 }}
-        className={`font-mono text-4xl md:text-6xl font-black uppercase tracking-widest ${
+        className={`font-mono text-sm sm:text-lg md:text-2xl lg:text-3xl font-black uppercase tracking-widest text-center px-4 ${
           isFinal ? "text-accent-energy drop-shadow-[0_0_15px_#00F2FF]" : "text-white"
         }`}
       >

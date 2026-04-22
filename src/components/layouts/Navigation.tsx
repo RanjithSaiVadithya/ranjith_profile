@@ -23,6 +23,7 @@ export function Navigation() {
     { href: "/projects", label: "02//PROJECTS" },
     { href: "/skills", label: "03//SKILLS" },
     { href: "/feed", label: "04//FEED" },
+    { href: "/contact", label: "05//CONTACT" },
   ];
 
   return (
