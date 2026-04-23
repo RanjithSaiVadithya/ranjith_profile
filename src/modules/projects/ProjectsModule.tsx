@@ -35,6 +35,7 @@ export function ProjectsModule() {
         
         {/* 0. PRAXO (ADVANCED VERSION) FLAGSHIP */}
         <motion.div 
+          id="praxo"
           className="bg-surface-card border border-text-muted/20 p-6 md:p-8 flex flex-col hover:border-accent-energy transition-all duration-300 group cursor-pointer md:col-span-2 relative overflow-hidden"
           whileHover={{ y: -5, borderColor: '#06B6D4' }}
         >
@@ -123,6 +124,7 @@ export function ProjectsModule() {
 
         {/* 1. PET CARE E-COMMERCE */}
         <motion.div 
+          id="pet-ecommerce"
           className="bg-surface-card border border-text-muted/20 p-6 flex flex-col hover:border-accent-secondary transition-colors group cursor-pointer"
           whileHover={{ y: -5, borderColor: '#7C3AED' }}
         >
@@ -185,6 +187,7 @@ export function ProjectsModule() {
 
         {/* 3. RIDE WHEELS (ADVANCED VERSION) */}
         <motion.div 
+          id="ridewheels"
           className="bg-surface-card border border-text-muted/20 p-6 md:p-8 flex flex-col hover:border-accent-primary transition-colors group cursor-pointer md:col-span-2 relative overflow-hidden"
           whileHover={{ y: -5, borderColor: '#2563EB' }}
         >
@@ -269,6 +272,7 @@ export function ProjectsModule() {
 
         {/* 5. ADMIN AUTOMATION SYSTEM (n8n + Telegram) */}
         <motion.div 
+          id="n8n-bot"
           className="bg-surface-card border border-text-muted/20 p-6 flex flex-col hover:border-[#FF6E4A] transition-colors group cursor-pointer"
           whileHover={{ y: -5, borderColor: '#FF6E4A' }}
         >

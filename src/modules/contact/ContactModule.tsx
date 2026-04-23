@@ -16,21 +16,32 @@ export function ContactModule() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate network latency for dramatic effect
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSuccess(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formState)
+      });
       
-      // Reset after a while
-      setTimeout(() => {
-        setIsSuccess(false);
-        setFormState({ name: "", email: "", phone: "", message: "" });
-      }, 5000);
-    }, 2000);
+      if (res.ok) {
+        setIsSuccess(true);
+        // Reset after a while
+        setTimeout(() => {
+          setIsSuccess(false);
+          setFormState({ name: "", email: "", phone: "", message: "" });
+        }, 5000);
+      } else {
+        alert("TRANSMISSION_FAILED: Node rejected payload.");
+      }
+    } catch (e) {
+      alert("ERROR: System offline.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const pastWorks = [

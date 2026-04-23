@@ -1,13 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { animations } from "@/core/AnimationEngine";
+import Link from "next/link";
 
 export function FeedModule() {
-  const blogs = [
-    { title: "Building a High-Performance Redis Clone in Go", date: "2026.04.18" },
-    { title: "Escaping the DOM: Writing a Custom Renderer", date: "2026.03.22" },
-  ];
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/feed")
+      .then(res => res.json())
+      .then(data => {
+        setBlogs(data.feeds || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load node broadcasts", err);
+        setLoading(false);
+      });
+  }, []);
 
   const categories = ["ARCHITECTURE", "PERFORMANCE", "UI/UX", "DEVOPS", "SYSTEMS"];
 
@@ -39,18 +52,41 @@ export function FeedModule() {
           <section>
              <h3 className="font-mono font-bold uppercase mb-6 text-xl">Transmissions</h3>
              <div className="flex flex-col gap-4">
+               {loading && <div className="text-accent-energy font-mono text-sm animate-pulse">SCANNING_DATA_NODES...</div>}
+               {!loading && blogs.length === 0 && <div className="text-text-muted font-mono text-sm">NO_PUBLIC_TRANSMISSIONS</div>}
                {blogs.map((blog, i) => (
                  <motion.div 
-                   key={blog.title}
-                   className="bg-surface-card border border-text-muted/20 p-6 shadow-sm hover:border-surface-dark transition-colors cursor-pointer group"
+                   key={blog.id}
+                   className="bg-surface-card border border-text-muted/20 p-6 shadow-sm hover:border-surface-dark transition-colors group relative"
                    variants={animations.slideLeft}
                    initial="initial"
                    whileInView="animate"
                    viewport={{ once: true }}
                  >
-                   <div className="text-text-muted font-mono text-xs mb-2">{blog.date}</div>
-                   <h4 className="text-xl font-bold group-hover:text-accent-primary transition-colors">{blog.title}</h4>
-                   <div className="w-0 h-0.5 bg-accent-primary mt-4 group-hover:w-full transition-all duration-300" />
+                   <div className="flex justify-between items-start mb-2">
+                     <div className="text-text-muted font-mono text-xs">{new Date(blog.createdAt).toLocaleDateString()}</div>
+                     <div className="bg-text-muted/10 text-xs font-mono px-2 py-0.5 mt-[-10px] mr-[-10px] text-text-muted border border-text-muted/20">
+                       {blog.category}
+                     </div>
+                   </div>
+                   
+                   <h4 className="text-xl font-bold group-hover:text-accent-primary transition-colors mb-4">{blog.title}</h4>
+                   
+                   <p className="font-mono text-sm text-text-secondary leading-relaxed mb-6 whitespace-pre-wrap">
+                     {blog.content}
+                   </p>
+                   
+                   {blog.relatedProjectId && (
+                     <div className="mt-4 pt-4 border-t border-text-muted/10">
+                       <Link href={`/projects#${blog.relatedProjectId}`}>
+                         <span className="font-mono text-[10px] bg-accent-secondary/10 text-accent-secondary border border-accent-secondary/20 px-3 py-1.5 uppercase hover:bg-accent-secondary hover:text-black transition-colors flex inline-flex items-center gap-2 w-fit">
+                           &gt; ATTACHED_SYSTEM: {blog.relatedProjectId} // VIEW_NOW
+                         </span>
+                       </Link>
+                     </div>
+                   )}
+
+                   <div className="w-0 h-0.5 bg-accent-primary mt-4 absolute bottom-0 left-0 group-hover:w-full transition-all duration-300" />
                  </motion.div>
                ))}
              </div>
