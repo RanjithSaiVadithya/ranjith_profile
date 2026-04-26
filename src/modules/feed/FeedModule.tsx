@@ -5,11 +5,17 @@ import { useState, useEffect } from "react";
 import { animations } from "@/core/AnimationEngine";
 import Link from "next/link";
 
-export function FeedModule() {
-  const [blogs, setBlogs] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+interface FeedModuleProps {
+  initialBlogs?: any[];
+}
+
+export function FeedModule({ initialBlogs = [] }: FeedModuleProps) {
+  const [blogs, setBlogs] = useState<any[]>(initialBlogs);
+  const [loading, setLoading] = useState(initialBlogs.length === 0);
 
   useEffect(() => {
+    if (initialBlogs.length > 0) return; // Skip fetch if already injected via SSR
+    
     fetch("/api/feed")
       .then(res => res.json())
       .then(data => {
@@ -20,7 +26,7 @@ export function FeedModule() {
         console.error("Failed to load node broadcasts", err);
         setLoading(false);
       });
-  }, []);
+  }, [initialBlogs]);
 
   const categories = ["ARCHITECTURE", "PERFORMANCE", "UI/UX", "DEVOPS", "SYSTEMS"];
 

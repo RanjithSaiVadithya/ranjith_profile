@@ -7,8 +7,22 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
 
 export const metadata: Metadata = {
-  title: "System Control | Developer Portfolio",
-  description: "An Interactive Engineering Control System representing a developer's career",
+  metadataBase: new URL("https://ranjith-portfolio-core.web.app"),
+  title: "RanjithSai Vadithya | Full Stack Developer & Sys Architect",
+  description: "Developer portfolio of RanjithSai (Anjit). Exploring React, Next.js, Node.js, Spring Boot, Laravel, and dynamic architectural engineering.",
+  keywords: ["RanjithSai", "Anjit", "Ranjith", "RanjithSai Vadithya", "RanjithSai portfolio", "Full Stack Developer", "Software Engineer", "Web Developer", "React", "Next.js", "Electrical & Electronics Engineering", "B.Tech"],
+  openGraph: {
+    title: "RanjithSai Vadithya | Full Stack Developer",
+    description: "Interactive Engineering Control System representing RanjithSai's developer career.",
+    url: "https://ranjith-portfolio-core.web.app",
+    siteName: "RanjithSai Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RanjithSai Vadithya | Full Stack Developer",
+    description: "Interactive Engineering Control System representing RanjithSai's developer career.",
+  }
 };
 
 export default function RootLayout({
