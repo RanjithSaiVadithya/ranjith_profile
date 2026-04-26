@@ -1,9 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { animations } from "@/core/AnimationEngine";
+import { User, Globe, ShieldCheck, Boxes, MessageCircle, CreditCard, BarChart3, MoreHorizontal, Database, Server, ArrowRight, ArrowDown, KeyRound, Reply } from "lucide-react";
+import { GameDemoCard } from "@/components/game/GameDemoCard";
+import { FullStackEvolutionGame } from "@/components/game/FullStackEvolutionGame";
 
 export function SkillsModule() {
+  const [isGameOpen, setIsGameOpen] = useState(false);
   const backendSkills = [
     "Java Engine", "Spring Boot Framework", "Microservices Architecture", 
     "Laravel (PHP)", "RESTful API Integration", "Middleware Systems"
@@ -34,67 +39,108 @@ export function SkillsModule() {
       {/* VISUAL NODE NETWORK: CORE SYSTEMS */}
       <section>
         <h3 className="font-mono text-xl font-bold uppercase mb-8 pb-2 border-b border-text-muted/10">SEC_1: LOGIC NODES</h3>
-        
-        <div className="w-full relative bg-surface-card border border-text-muted/20 p-4 md:p-8 flex items-center justify-center overflow-hidden shadow-sm">
-           {/* Responsive SVG ViewBox ensuring it scales globally without squishing items */}
-           <div className="relative w-full max-w-4xl aspect-[4/3] md:aspect-[21/9] flex items-center justify-center">
-              
-              {/* Central Core */}
-              <div className="absolute z-20 w-16 h-16 md:w-24 md:h-24 bg-surface-dark border-4 border-background-main rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)]">
-                 <span className="font-black text-white font-mono text-xs md:text-sm">CORE</span>
+        <div className="w-full relative bg-surface-card border border-text-muted/20 p-4 md:p-8 overflow-hidden shadow-sm">
+          <div className="border border-text-muted/25 rounded-2xl bg-background-secondary/30 p-4 md:p-6">
+            <h4 className="text-lg md:text-3xl font-black text-center text-text-primary">
+              Workflow System Design - Request to Response
+            </h4>
+            <p className="text-center text-[11px] md:text-sm text-text-secondary mt-2">
+              One of my workflow system design patterns with a clear request-to-response path.
+            </p>
+
+            {/* Unified web-style topology for desktop + mobile */}
+            <div className="mt-6 overflow-x-auto pb-2">
+              <div className="min-w-[980px]">
+              <div className="grid grid-cols-[1.1fr_auto_1fr_auto_2fr_auto_1fr_auto_1fr] gap-2 items-stretch">
+                <div className="rounded-2xl border border-[#b8c7d9] bg-[#eef4fb] p-3">
+                  <p className="font-bold text-[#234f7f] text-xs text-center">1. Users</p>
+                  <div className="mt-3 space-y-2 text-[11px] text-text-primary">
+                    <div className="flex items-center gap-2"><User size={14} /> Mobile / Web</div>
+                    <div className="flex items-center gap-2"><User size={14} /> Admin / User</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center text-text-secondary"><ArrowRight size={16} /></div>
+                <div className="rounded-2xl border border-[#e4d3a2] bg-[#fff7df] p-3">
+                  <p className="font-bold text-[#8a6500] text-xs text-center">2. API Gateway</p>
+                  <div className="mt-3 space-y-2 text-[11px] text-text-primary">
+                    <div className="flex items-center gap-2"><ShieldCheck size={14} /> Auth</div>
+                    <div className="flex items-center gap-2"><Globe size={14} /> Validate</div>
+                    <div className="flex items-center gap-2"><ArrowRight size={14} /> Route</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center text-text-secondary"><ArrowRight size={16} /></div>
+                <div className="rounded-2xl border border-[#c9b6de] bg-[#f7f1ff] p-3">
+                  <p className="font-bold text-[#5b3b80] text-xs text-center">4. Microservices</p>
+                  <div className="grid grid-cols-5 gap-1 mt-3 text-center text-[10px] text-text-primary">
+                    <div className="bg-white border border-text-muted/20 rounded-lg p-1 flex flex-col items-center gap-1"><MessageCircle size={12} />Chat</div>
+                    <div className="bg-white border border-text-muted/20 rounded-lg p-1 flex flex-col items-center gap-1"><CreditCard size={12} />Pay</div>
+                    <div className="bg-white border border-text-muted/20 rounded-lg p-1 flex flex-col items-center gap-1"><BarChart3 size={12} />Stats</div>
+                    <div className="bg-white border border-text-muted/20 rounded-lg p-1 flex flex-col items-center gap-1"><Server size={12} />Jobs</div>
+                    <div className="bg-white border border-text-muted/20 rounded-lg p-1 flex flex-col items-center gap-1"><MoreHorizontal size={12} />More</div>
+                  </div>
+                  <div className="mt-3 rounded-lg bg-white/70 border border-text-muted/20 p-2 text-[10px] text-text-secondary text-center">
+                    Independent services, easy scaling.
+                  </div>
+                </div>
+                <div className="flex items-center justify-center text-text-secondary"><ArrowRight size={16} /></div>
+                <div className="rounded-2xl border border-[#bfd8b8] bg-[#eef9eb] p-3">
+                  <p className="font-bold text-[#2f6d22] text-xs text-center">5. Redis Cache</p>
+                  <div className="mt-3 space-y-1 text-[11px] text-text-primary">
+                    <div>Hit: return fast</div>
+                    <div>Miss: read DB + update</div>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center text-text-secondary"><ArrowRight size={16} /></div>
+                <div className="rounded-2xl border border-[#b8c7d9] bg-[#eef4fb] p-3">
+                  <p className="font-bold text-[#234f7f] text-xs text-center">6. Database</p>
+                  <div className="mt-3 space-y-1 text-[11px] text-text-primary">
+                    <div className="flex items-center gap-2"><Database size={13} /> Persistent data</div>
+                    <div>Users, msgs, payments, analytics</div>
+                  </div>
+                </div>
               </div>
 
-              {/* Dynamic Connecting Lines Matrix */}
-              <svg className="absolute inset-0 w-full h-full z-0 opacity-20 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-                 <line x1="50" y1="50" x2="20" y2="20" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-                 <line x1="50" y1="50" x2="80" y2="20" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-                 <line x1="50" y1="50" x2="15" y2="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-                 <line x1="50" y1="50" x2="85" y2="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-                 <line x1="50" y1="50" x2="85" y2="50" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-              </svg>
+              <div className="grid grid-cols-[1fr_auto_1fr_auto_2.2fr_auto_1fr_auto_1fr] mt-2 items-center text-[11px] text-text-muted">
+                <div />
+                <div />
+                <div className="text-center border-t border-dashed border-text-muted/50 pt-1 text-[10px]">Auth ↓</div>
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div className="text-center border-t border-dashed border-text-muted/50 pt-1 text-[10px]">Return ↓</div>
+              </div>
 
-              {/* Floating Nodes positioned safely */}
-              <motion.div 
-                className="absolute z-10 top-[10%] left-[10%] md:top-[10%] md:left-[20%] bg-white border border-accent-primary p-2 md:p-3 shadow-md w-28 md:w-40 text-center"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.1, type: "spring" }}
-              >
-                <div className="text-[10px] md:text-xs font-mono font-bold text-background-main leading-tight">Java Spring</div>
-                <div className="text-[8px] md:text-[10px] text-text-secondary mt-1">Microservices</div>
-              </motion.div>
+              <div className="grid grid-cols-[1fr_1fr_2.2fr_1fr_1fr] gap-3 mt-4 items-center">
+                <div />
+                <div className="rounded-xl border border-[#bfd8b8] bg-[#f3faef] p-3 text-center">
+                  <p className="font-bold text-[#2f6d22] text-xs flex items-center justify-center gap-1"><KeyRound size={12} />3. Identity Provider</p>
+                  <p className="text-[11px] text-text-secondary mt-1">Auth / token check</p>
+                </div>
+                <div className="rounded-xl border border-[#c1daef] bg-[#eef7ff] p-3 text-center">
+                  <p className="font-bold text-[#2b5f88] text-xs flex items-center justify-center gap-1"><Reply size={12} />7. Response Back</p>
+                  <p className="text-[11px] text-text-secondary mt-1">
+                    DB → Service → Gateway → User
+                  </p>
+                </div>
+                <div />
+                <div />
+              </div>
 
-              <motion.div 
-                className="absolute z-10 top-[10%] right-[10%] md:top-[10%] md:right-[20%] bg-white border border-accent-energy p-2 md:p-3 shadow-md w-28 md:w-40 text-center"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2, type: "spring" }}
-              >
-                <div className="text-[10px] md:text-xs font-mono font-bold text-background-main leading-tight">Laravel</div>
-                <div className="text-[8px] md:text-[10px] text-text-secondary mt-1">MVC Framework</div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute z-10 bottom-[10%] left-[5%] md:bottom-[15%] md:left-[15%] bg-white border border-[#475569] p-2 md:p-3 shadow-md w-28 md:w-40 text-center"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3, type: "spring" }}
-              >
-                <div className="text-[10px] md:text-xs font-mono font-bold text-background-main leading-tight">MySQL Server</div>
-                <div className="text-[8px] md:text-[10px] text-text-secondary mt-1">Optimization</div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute z-10 bottom-[10%] right-[5%] md:bottom-[15%] md:right-[15%] bg-white border border-accent-secondary p-2 md:p-3 shadow-md w-28 md:w-40 text-center"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.4, type: "spring" }}
-              >
-                <div className="text-[10px] md:text-xs font-mono font-bold text-background-main leading-tight">React.js</div>
-                <div className="text-[8px] md:text-[10px] text-text-secondary mt-1">UX & Context</div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute z-10 top-[45%] right-[0%] md:top-[45%] md:right-[5%] bg-white border border-[#111] p-2 md:p-3 shadow-md w-24 md:w-32 text-center hidden sm:block"
-                initial={{ scale: 0 }} whileInView={{ scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.5, type: "spring" }}
-              >
-                <div className="text-[10px] md:text-xs font-mono font-bold text-background-main leading-tight">Linux</div>
-                <div className="text-[8px] md:text-[10px] text-text-secondary mt-1">Servers</div>
-              </motion.div>
-
-           </div>
+              <div className="mt-4 rounded-xl border border-text-muted/20 bg-white p-3">
+                <div className="grid grid-cols-6 gap-2 text-center text-[10px] text-text-secondary">
+                  <div className="font-semibold text-text-primary">Key</div>
+                  <div>API Gateway entry</div>
+                  <div>Service modularity</div>
+                  <div>Redis speed</div>
+                  <div>Persistent DB</div>
+                  <div>Secure auth</div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -204,6 +250,14 @@ export function SkillsModule() {
           </div>
         </div>
       </section>
+
+      <GameDemoCard
+        title="The Full-Stack Evolution // Skill Challenge"
+        description="Try the live mini-game built for this portfolio: defend system integrity, clear bugs, and unlock architecture rank upgrades."
+        onPlay={() => setIsGameOpen(true)}
+      />
+
+      <FullStackEvolutionGame isOpen={isGameOpen} onClose={() => setIsGameOpen(false)} />
 
     </div>
   );

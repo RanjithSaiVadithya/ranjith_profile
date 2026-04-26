@@ -3,9 +3,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { animations } from "@/core/AnimationEngine";
+import { GameDemoCard } from "@/components/game/GameDemoCard";
+import { FullStackEvolutionGame } from "@/components/game/FullStackEvolutionGame";
 
 export function ProjectsModule() {
   const [filter, setFilter] = useState("ALL_SYSTEMS");
+  const [isGameOpen, setIsGameOpen] = useState(false);
 
   return (
     <div className="w-full max-w-7xl mx-auto flex flex-col gap-16 pt-12">
@@ -362,6 +365,14 @@ export function ProjectsModule() {
           </div>
         </motion.div>
       </div>
+
+      <GameDemoCard
+        title="The Full-Stack Evolution // Project Demo"
+        description="Experience the playable project demo with desktop and mobile controls aligned to your portfolio design language."
+        onPlay={() => setIsGameOpen(true)}
+      />
+
+      <FullStackEvolutionGame isOpen={isGameOpen} onClose={() => setIsGameOpen(false)} />
     </div>
   );
 }
