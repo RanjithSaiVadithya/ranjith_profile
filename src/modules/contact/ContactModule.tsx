@@ -9,22 +9,70 @@ export function ContactModule() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    phone: "",
     message: "",
   });
+  const [countryCode, setCountryCode] = useState("+91");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const getValidatedPhone = () => {
+    if (!countryCode && !mobileNumber) {
+      return "";
+    }
+
+    if (!countryCode || !mobileNumber) {
+      setPhoneError("Please enter both country code and mobile number.");
+      return null;
+    }
+
+    const normalizedCountryCode = countryCode.trim();
+    const normalizedMobileNumber = mobileNumber.trim();
+    const fullNumber = `${normalizedCountryCode}${normalizedMobileNumber}`;
+
+    if (!/^\+[1-9]\d{0,2}$/.test(normalizedCountryCode)) {
+      setPhoneError("Country code must start with + and contain 1 to 3 digits.");
+      return null;
+    }
+
+    if (!/^\d+$/.test(normalizedMobileNumber)) {
+      setPhoneError("Mobile number must contain digits only.");
+      return null;
+    }
+
+    if (!/^\+[1-9]\d{1,14}$/.test(fullNumber)) {
+      setPhoneError("Use valid E.164 format (max 15 digits including country code).");
+      return null;
+    }
+
+    if (normalizedCountryCode === "+33" && !/^[67]\d+$/.test(normalizedMobileNumber)) {
+      setPhoneError("For France (+33), mobile numbers must start with 6 or 7.");
+      return null;
+    }
+
+    setPhoneError("");
+    return fullNumber;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validatedPhone = getValidatedPhone();
+    if (validatedPhone === null) {
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState)
+        body: JSON.stringify({
+          ...formState,
+          phone: validatedPhone,
+        })
       });
       
       if (res.ok) {
@@ -32,7 +80,9 @@ export function ContactModule() {
         // Reset after a while
         setTimeout(() => {
           setIsSuccess(false);
-          setFormState({ name: "", email: "", phone: "", message: "" });
+          setFormState({ name: "", email: "", message: "" });
+          setCountryCode("+91");
+          setMobileNumber("");
         }, 5000);
       } else {
         alert("TRANSMISSION_FAILED: Node rejected payload.");
@@ -74,8 +124,9 @@ export function ContactModule() {
       <motion.div variants={animations.slideLeft} initial="initial" animate="animate">
         <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-2">05 // CONTACT_SYS</h2>
         <div className="w-24 h-2 bg-accent-energy" />
-        <p className="font-mono text-text-muted mt-4 text-sm max-w-xl">
-           &gt; Awaiting secure transmission. Use the interface below to establish a direct communication link or review system logs to the right.
+        <p className="font-mono text-text-secondary mt-4 text-sm leading-relaxed max-w-2xl">
+          Reach out using the form below for project work, collaboration, or support.
+          I usually reply within 24 hours.
         </p>
       </motion.div>
 
@@ -109,17 +160,17 @@ export function ContactModule() {
                  className="flex flex-col items-center justify-center py-20 text-center gap-4"
                >
                   <CheckCircle2 size={48} className="text-accent-success" />
-                  <h3 className="text-2xl font-black text-white uppercase tracking-widest">Payload Transmitted</h3>
-                  <p className="font-mono text-text-muted text-sm border-t border-[#333] pt-4">
-                    Link established. System architect has been pinged. Response expected shortly.
+                  <h3 className="text-2xl font-black text-white uppercase tracking-widest">Message Sent</h3>
+                  <p className="font-mono text-text-secondary text-sm border-t border-[#333] pt-4 max-w-md">
+                    Thank you for reaching out. Your message was received successfully and I will get back to you soon.
                   </p>
                </motion.div>
             ) : (
               <>
                 {/* Name Input */}
                 <div className="group mb-8">
-                  <label className="font-mono text-[10px] uppercase text-text-muted font-bold tracking-widest mb-1 block group-focus-within:text-accent-energy transition-colors">
-                    &gt; INPUT // IDENTIFIER (NAME)
+                  <label className="font-mono text-xs uppercase text-text-secondary font-bold tracking-widest mb-1 block group-focus-within:text-accent-energy transition-colors">
+                    Full Name
                   </label>
                   <div className="flex items-end">
                     <span className="font-mono text-accent-energy text-lg mr-2 leading-none mb-1">~#</span>
@@ -128,16 +179,16 @@ export function ContactModule() {
                       type="text" 
                       value={formState.name}
                       onChange={(e) => setFormState({...formState, name: e.target.value})}
-                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-[#333] focus:border-accent-energy focus:outline-none transition-colors pb-1"
-                      placeholder="ENTER_NAME..."
+                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-zinc-400 focus:border-accent-energy focus:outline-none transition-colors pb-1"
+                      placeholder="Enter your full name"
                     />
                   </div>
                 </div>
 
                 {/* Email Input */}
                 <div className="group mb-8">
-                  <label className="font-mono text-[10px] uppercase text-text-muted font-bold tracking-widest mb-1 block group-focus-within:text-accent-primary transition-colors">
-                    &gt; INPUT // RETURN_NODE (EMAIL)
+                  <label className="font-mono text-xs uppercase text-text-secondary font-bold tracking-widest mb-1 block group-focus-within:text-accent-primary transition-colors">
+                    Email Address
                   </label>
                   <div className="flex items-end">
                     <span className="font-mono text-accent-primary text-lg mr-2 leading-none mb-1">~#</span>
@@ -146,33 +197,57 @@ export function ContactModule() {
                       type="email" 
                       value={formState.email}
                       onChange={(e) => setFormState({...formState, email: e.target.value})}
-                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-[#333] focus:border-accent-primary focus:outline-none transition-colors pb-1"
-                      placeholder="ENTER_ROUTING_ADDRESS..."
+                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-zinc-400 focus:border-accent-primary focus:outline-none transition-colors pb-1"
+                      placeholder="name@example.com"
                     />
                   </div>
                 </div>
 
                 {/* Phone Input */}
                 <div className="group mb-8">
-                  <label className="font-mono text-[10px] uppercase text-text-muted font-bold tracking-widest mb-1 block group-focus-within:text-accent-success transition-colors">
-                    &gt; INPUT // COM_LINK (PHONE)
+                  <label className="font-mono text-xs uppercase text-text-secondary font-bold tracking-widest mb-1 block group-focus-within:text-accent-success transition-colors">
+                    Phone Number (Optional)
                   </label>
-                  <div className="flex items-end">
-                    <span className="font-mono text-accent-success text-lg mr-2 leading-none mb-1">~#</span>
-                    <input 
-                      type="tel" 
-                      value={formState.phone}
-                      onChange={(e) => setFormState({...formState, phone: e.target.value})}
-                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-[#333] focus:border-accent-success focus:outline-none transition-colors pb-1"
-                      placeholder="ENTER_CONTACT_NUMBER..."
+                  <div className="flex items-end gap-3">
+                    <span className="font-mono text-accent-success text-lg leading-none mb-1">~#</span>
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      value={countryCode}
+                      onChange={(e) => {
+                        const raw = e.target.value.replace(/[^\d+]/g, "");
+                        const normalized = raw ? `+${raw.replace(/\+/g, "")}` : "";
+                        setCountryCode(normalized);
+                        if (phoneError) setPhoneError("");
+                      }}
+                      className="w-28 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-zinc-400 focus:border-accent-success focus:outline-none transition-colors pb-1"
+                      placeholder="+91"
+                      maxLength={4}
+                    />
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      value={mobileNumber}
+                      onChange={(e) => {
+                        setMobileNumber(e.target.value.replace(/\D/g, ""));
+                        if (phoneError) setPhoneError("");
+                      }}
+                      className="flex-1 bg-transparent border-b-2 border-[#333] tracking-wider text-white font-mono placeholder:text-zinc-400 focus:border-accent-success focus:outline-none transition-colors pb-1"
+                      placeholder="9876543210"
                     />
                   </div>
+                  <p className="font-mono text-[10px] text-text-muted mt-2">
+                    Format: +CountryCode and digits only. Example: +91 9876543210 (E.164 max 15 digits).
+                  </p>
+                  {phoneError && (
+                    <p className="font-mono text-[10px] text-accent-warning mt-1">{phoneError}</p>
+                  )}
                 </div>
 
                 {/* Message Input */}
                 <div className="group mb-12">
-                  <label className="font-mono text-[10px] uppercase text-text-muted font-bold tracking-widest mb-1 block group-focus-within:text-white transition-colors">
-                    &gt; INPUT // PAYLOAD (MESSAGE)
+                  <label className="font-mono text-xs uppercase text-text-secondary font-bold tracking-widest mb-1 block group-focus-within:text-white transition-colors">
+                    Project Details / Message
                   </label>
                   <div className="flex items-start">
                     <span className="font-mono text-white text-lg mr-2 leading-none mt-1">~#</span>
@@ -181,8 +256,8 @@ export function ContactModule() {
                       rows={4}
                       value={formState.message}
                       onChange={(e) => setFormState({...formState, message: e.target.value})}
-                      className="flex-1 bg-transparent border-l-2 border-b-2 border-[#333] p-2 tracking-wider text-white font-mono placeholder:text-[#333] focus:border-white focus:outline-none transition-colors resize-none"
-                      placeholder="WRITE_PAYLOAD_DATA_HERE..."
+                      className="flex-1 bg-transparent border-l-2 border-b-2 border-[#333] p-2 tracking-wider text-white font-mono placeholder:text-zinc-400 focus:border-white focus:outline-none transition-colors resize-none"
+                      placeholder="Tell me what you need, timeline, and any important details."
                     />
                   </div>
                 </div>
@@ -191,7 +266,7 @@ export function ContactModule() {
                   disabled={isSubmitting}
                   className="relative overflow-hidden w-full bg-white text-black font-mono font-bold uppercase tracking-[0.2em] py-4 hover:bg-zinc-300 disabled:opacity-50 disabled:bg-zinc-500 transition-all group flex items-center justify-center gap-3"
                 >
-                  <span className="z-10">{isSubmitting ? "ENCRYPTING_AND_ROUTING..." : "COMMIT_TRANSMISSION"}</span>
+                  <span className="z-10">{isSubmitting ? "Sending Message..." : "Send Message"}</span>
                   {!isSubmitting && <Send size={16} className="z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />}
                   
                   {/* Glitch hover background */}
@@ -211,7 +286,7 @@ export function ContactModule() {
         >
           <div className="flex items-center gap-3 border-b border-text-muted/20 pb-4">
              <div className="w-2 h-6 bg-accent-primary" />
-             <h3 className="font-mono text-xl font-bold uppercase tracking-widest text-text-primary">SYSTEM Logs & Capability Matrix</h3>
+             <h3 className="font-mono text-xl font-bold uppercase tracking-widest text-text-primary">Project Experience & Capability Highlights</h3>
           </div>
 
           <div className="flex flex-col gap-4">

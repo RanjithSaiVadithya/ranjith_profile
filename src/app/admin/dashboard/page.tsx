@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Send, Activity, ShieldAlert, LogOut, Database, Navigation, Archive, Edit, Trash2 } from "lucide-react";
+import { Terminal, Activity, ShieldAlert, LogOut, Database, Navigation, Archive, Edit, Trash2, UserCircle2, Save, X } from "lucide-react";
 
 export default function AdminDashboard() {
   const router = useRouter();
   const [tab, setTab] = useState<"FEED" | "INBOX" | "ARCHIVE">("FEED");
   const [token, setToken] = useState("");
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [profileName, setProfileName] = useState("Ranjith Sai");
+  const [profileEmail, setProfileEmail] = useState("");
 
   // Feed State
   const [title, setTitle] = useState("");
@@ -30,6 +33,10 @@ export default function AdminDashboard() {
       router.push("/admin/login");
     } else {
       setToken(t);
+      const savedProfileName = localStorage.getItem("admin_profile_name");
+      const savedProfileEmail = localStorage.getItem("admin_profile_email");
+      if (savedProfileName) setProfileName(savedProfileName);
+      if (savedProfileEmail) setProfileEmail(savedProfileEmail);
       fetchContacts(t);
       fetchFeeds();
     }
@@ -135,19 +142,25 @@ export default function AdminDashboard() {
     router.push("/admin/login");
   };
 
+  const handleProfileSave = () => {
+    localStorage.setItem("admin_profile_name", profileName.trim() || "Admin User");
+    localStorage.setItem("admin_profile_email", profileEmail.trim());
+    setIsProfileOpen(false);
+  };
+
   if (!token) return <div className="min-h-screen bg-background-main" />;
 
   return (
-    <div className="min-h-screen bg-background-main text-text-primary p-4 md:p-12 font-mono relative overflow-hidden">
+    <div className="min-h-screen bg-background-main text-text-primary p-3 md:p-8 lg:p-12 font-mono relative overflow-hidden">
       {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-      <div className="w-full max-w-7xl mx-auto flex flex-col h-full gap-12 relative z-10 pt-8">
+      <div className="w-full max-w-7xl mx-auto flex flex-col h-full gap-8 md:gap-12 relative z-10 pt-4 md:pt-8">
         
         {/* HEADER */}
-        <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="flex justify-between items-end border-b-2 border-text-muted/20 pb-6">
-          <div>
-            <h1 className="text-4xl md:text-5xl font-black uppercase text-text-primary tracking-widest flex items-center gap-4">
+        <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between md:items-end border-b-2 border-text-muted/20 pb-6">
+          <div className="space-y-2">
+            <h1 className="text-3xl md:text-5xl font-black uppercase text-text-primary tracking-widest flex items-center gap-3 md:gap-4">
               <ShieldAlert className="text-accent-energy w-10 h-10" />
               SYS_COMMAND_CENTER
             </h1>
@@ -156,43 +169,55 @@ export default function AdminDashboard() {
                Global Access Node // SECURED
             </div>
           </div>
-          <button onClick={handleLogout} className="flex hidden md:flex items-center gap-2 text-xs border border-accent-warning text-accent-warning px-4 py-2 hover:bg-accent-warning hover:text-white transition-colors uppercase tracking-widest group">
-            <LogOut size={14} className="group-hover:-translate-x-1 transition-transform" />
-            TERMIANTE_LINK
-          </button>
+
+          <div className="flex items-center gap-2 md:gap-3 flex-wrap md:flex-nowrap">
+            <button
+              onClick={() => setIsProfileOpen(true)}
+              className="flex items-center gap-2 text-xs border border-text-muted/30 bg-surface-card/90 backdrop-blur-sm px-3 py-2 hover:border-accent-primary hover:text-accent-primary transition-colors uppercase tracking-widest"
+            >
+              <UserCircle2 size={16} />
+              {profileName || "Admin User"}
+            </button>
+            <button onClick={handleLogout} className="flex items-center gap-2 text-xs border border-accent-warning text-accent-warning px-3 md:px-4 py-2 hover:bg-accent-warning hover:text-white transition-colors uppercase tracking-widest group">
+              <LogOut size={14} className="group-hover:-translate-x-1 transition-transform" />
+              TERMINATE_LINK
+            </button>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
           
           {/* SIDEBAR NAVIGATION */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="col-span-1 lg:col-span-3 flex flex-col gap-4">
              <div className="bg-surface-card border border-text-muted/20 p-4 flex flex-col gap-2 relative overflow-hidden group shadow-sm">
                <div className="absolute top-0 left-0 w-1 h-full bg-accent-primary" />
                <p className="text-[10px] text-text-muted font-bold tracking-widest mb-2 uppercase">Core Routing</p>
-               
-               <button 
-                 onClick={() => { setTab("FEED"); setEditingFeedId(null); setTitle(""); setContent(""); }}
-                 className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "FEED" ? "bg-accent-energy/10 text-accent-energy border-l-2 border-accent-energy" : "text-text-muted hover:text-text-primary"}`}
-               >
-                 <span>&gt; PUBLISHER</span>
-                 {tab === "FEED" && <Activity size={12} />}
-               </button>
 
-               <button 
-                 onClick={() => setTab("ARCHIVE")}
-                 className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "ARCHIVE" ? "bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary" : "text-text-muted hover:text-text-primary"}`}
-               >
-                 <span>&gt; LOG_ARCHIVE</span>
-                 {tab === "ARCHIVE" && <Archive size={12} />}
-               </button>
-               
-               <button 
-                 onClick={() => setTab("INBOX")}
-                 className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "INBOX" ? "bg-accent-secondary/10 text-accent-secondary border-l-2 border-accent-secondary" : "text-text-muted hover:text-text-primary"}`}
-               >
-                 <span>&gt; INBOX_CACHE</span>
-                 {tab === "INBOX" && <Database size={12} />}
-               </button>
+               <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2">
+                 <button 
+                   onClick={() => { setTab("FEED"); setEditingFeedId(null); setTitle(""); setContent(""); }}
+                   className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "FEED" ? "bg-accent-energy/10 text-accent-energy border-l-2 border-accent-energy" : "text-text-muted hover:text-text-primary"}`}
+                 >
+                   <span>&gt; PUBLISHER</span>
+                   {tab === "FEED" && <Activity size={12} />}
+                 </button>
+
+                 <button 
+                   onClick={() => setTab("ARCHIVE")}
+                   className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "ARCHIVE" ? "bg-accent-primary/10 text-accent-primary border-l-2 border-accent-primary" : "text-text-muted hover:text-text-primary"}`}
+                 >
+                   <span>&gt; LOG_ARCHIVE</span>
+                   {tab === "ARCHIVE" && <Archive size={12} />}
+                 </button>
+                 
+                 <button 
+                   onClick={() => setTab("INBOX")}
+                   className={`text-left p-3 flex justify-between items-center transition-colors font-bold uppercase text-xs tracking-widest ${tab === "INBOX" ? "bg-accent-secondary/10 text-accent-secondary border-l-2 border-accent-secondary" : "text-text-muted hover:text-text-primary"}`}
+                 >
+                   <span>&gt; INBOX_CACHE</span>
+                   {tab === "INBOX" && <Database size={12} />}
+                 </button>
+               </div>
              </div>
              
              {/* Readout */}
@@ -209,7 +234,7 @@ export default function AdminDashboard() {
 
           {/* MAIN TERMINAL */}
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }} className="col-span-1 lg:col-span-9">
-            <div className="w-full bg-surface-card border border-text-muted/20 shadow-lg relative">
+            <div className="w-full bg-surface-card/95 backdrop-blur-sm border border-text-muted/20 shadow-xl relative">
                 
               {/* Terminal Header */}
               <div className="flex items-center justify-between border-b border-text-muted/20 px-4 py-3 bg-surface-dark">
@@ -227,7 +252,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Terminal Content Area */}
-               <div className="p-6 md:p-10 min-h-[500px]">
+               <div className="p-4 md:p-8 lg:p-10 min-h-[420px] md:min-h-[500px]">
                  <AnimatePresence mode="wait">
                    
                    {/* FEED PUBLISHER */}
@@ -237,7 +262,7 @@ export default function AdminDashboard() {
                          {editingFeedId ? "Patch Existing Log" : "Emit Global Transmission"}
                        </h2>
                        
-                       <form onSubmit={handlePostFeed} className="flex flex-col gap-8 text-text-primary">
+                      <form onSubmit={handlePostFeed} className="flex flex-col gap-6 md:gap-8 text-text-primary">
                          
                          <div className="group">
                            <label className="font-mono text-[10px] uppercase text-text-muted font-bold tracking-widest mb-1 block group-focus-within:text-accent-energy transition-colors">
@@ -293,7 +318,7 @@ export default function AdminDashboard() {
                            </div>
                          </div>
 
-                         <button type="submit" disabled={isSubmitting} className="relative overflow-hidden w-full bg-accent-energy text-white font-mono font-bold uppercase tracking-[0.2em] py-4 hover:bg-surface-dark hover:text-accent-energy transition-all group mt-4 flex items-center justify-center gap-3">
+                        <button type="submit" disabled={isSubmitting} className="relative overflow-hidden w-full bg-accent-energy text-white font-mono font-bold uppercase tracking-[0.14em] md:tracking-[0.2em] py-4 hover:bg-surface-dark hover:text-accent-energy transition-all group mt-4 flex items-center justify-center gap-3">
                            <span className="z-10">{isSubmitting ? "UPLOADING_BLOCKS..." : (editingFeedId ? "EXECUTE_LOG_PATCH" : "EXECUTE_GLOBAL_BROADCAST")}</span>
                            {!isSubmitting && <Navigation size={16} className="z-10 group-hover:translate-x-2 transition-transform" />}
                            <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,0,0,0.1)_10px,rgba(0,0,0,0.1)_20px)] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -406,6 +431,73 @@ export default function AdminDashboard() {
 
         </div>
       </div>
+
+      <AnimatePresence>
+        {isProfileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-50 p-4 flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 20, opacity: 0 }}
+              className="w-full max-w-md bg-surface-card border border-text-muted/20 shadow-2xl"
+            >
+              <div className="flex items-center justify-between px-5 py-4 border-b border-text-muted/20">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary flex items-center gap-2">
+                  <UserCircle2 size={16} className="text-accent-primary" />
+                  Update Profile
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setIsProfileOpen(false)}
+                  className="text-text-muted hover:text-text-primary transition-colors"
+                  aria-label="Close profile modal"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="p-5 flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <label className="font-mono text-[10px] uppercase tracking-widest text-text-muted">
+                    Display Name
+                  </label>
+                  <input
+                    type="text"
+                    value={profileName}
+                    onChange={(e) => setProfileName(e.target.value)}
+                    className="bg-white border border-text-muted/30 p-3 text-sm text-text-primary outline-none focus:border-accent-primary transition-colors"
+                    placeholder="Admin User"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="font-mono text-[10px] uppercase tracking-widest text-text-muted">
+                    Profile Email
+                  </label>
+                  <input
+                    type="email"
+                    value={profileEmail}
+                    onChange={(e) => setProfileEmail(e.target.value)}
+                    className="bg-white border border-text-muted/30 p-3 text-sm text-text-primary outline-none focus:border-accent-primary transition-colors"
+                    placeholder="admin@system.local"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleProfileSave}
+                  className="mt-1 flex items-center justify-center gap-2 bg-accent-primary text-white font-bold uppercase tracking-widest text-xs py-3 hover:bg-accent-secondary transition-colors"
+                >
+                  <Save size={14} />
+                  Save Profile
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
