@@ -9,6 +9,25 @@ import { TimelineSection } from "../home/components/TimelineSection";
 
 export function AboutModule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const emailId = "ranjithsaivadithya14@gmail.com";
+
+  const handleMailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    const mailtoUrl = `mailto:${emailId}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailId)}`;
+
+    // Try native desktop mail client first.
+    window.location.href = mailtoUrl;
+
+    // If the browser stays focused, likely no desktop handler is configured.
+    window.setTimeout(() => {
+      if (document.hasFocus()) {
+        window.open(gmailUrl, "_blank", "noopener,noreferrer");
+      }
+    }, 700);
+  };
+
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col gap-24 pt-12">
       {/* HEADER */}
@@ -69,16 +88,16 @@ export function AboutModule() {
            {/* Social Icon Grid */}
            <div className="flex gap-6 items-center justify-center md:justify-start mt-8">
               {/* LinkedIn */}
-              <a href="#" className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-accent-primary hover:text-white transition-all transform hover:scale-110 shadow-sm group">
+              <a href="https://linkedin.com/in/vadithya-ranjith-sai" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-accent-primary hover:text-white transition-all transform hover:scale-110 shadow-sm group">
                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="group-hover:animate-pulse"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
               </a>
               {/* Instagram */}
-              <a href="#" className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-[#E1306C] hover:text-white transition-all transform hover:scale-110 shadow-sm group">
+              <a href="https://www.instagram.com/_ranjith_sai?igsh=enlrbTg1ZnM4NDlj" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-[#E1306C] hover:text-white transition-all transform hover:scale-110 shadow-sm group">
                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="group-hover:animate-[spin_3s_linear_infinite]"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
               </a>
-              {/* X / Twitter */}
-              <a href="#" className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-black hover:text-white border border-transparent hover:border-text-muted/20 transition-all transform hover:scale-110 shadow-sm">
-                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              {/* Direct Mail */}
+              <a href={`mailto:${emailId}`} onClick={handleMailClick} className="w-10 h-10 flex items-center justify-center rounded bg-surface-dark text-background-main hover:bg-accent-warning hover:text-black border border-transparent hover:border-accent-warning/30 transition-all transform hover:scale-110 shadow-sm">
+                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
               </a>
            </div>
 
@@ -93,11 +112,14 @@ export function AboutModule() {
                  <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
                  INITIATE WHATSAPP CHAT
               </a>
-              <a 
-                 href="#"
-                 className="w-full sm:w-auto px-6 py-3 bg-transparent text-text-secondary border border-[#333] hover:border-accent-primary hover:text-white font-mono text-xs font-bold uppercase tracking-widest transition-all text-center"
+             <a
+                 href="/Ranjith_Sai_Vadithya.pdf"
+                 download
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="w-full sm:w-auto px-6 py-3 bg-transparent text-text-primary border border-[#2f74aa] hover:bg-[#2f74aa]/10 hover:text-[#2f74aa] hover:border-[#2f74aa] font-mono text-xs font-bold uppercase tracking-widest transition-all text-center"
               >
-                 [ DOWNLOAD_RESUME ]
+                 [ GET_RESUME.pdf ]
               </a>
            </div>
         </div>

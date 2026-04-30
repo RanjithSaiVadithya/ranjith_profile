@@ -19,17 +19,29 @@ export function ProjectsModule() {
           <div className="w-24 h-2 bg-text-primary mt-2" />
         </div>
         
-        {/* Filter Console */}
-        <div className="font-mono text-xs flex gap-4 text-text-secondary overflow-x-auto pb-2 md:pb-0">
-          {["ALL_SYSTEMS", "MICROSERVICES", "FRONTEND", "FULLSTACK"].map((f) => (
-            <button 
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`hover:text-text-primary transition-colors ${filter === f ? "text-accent-energy font-bold border-b border-accent-energy" : ""} whitespace-nowrap`}
-            >
-              [{f}]
-            </button>
-          ))}
+        <div className="flex flex-col items-start md:items-end gap-3">
+          <a
+            href="/Ranjith_Sai_Vadithya.pdf"
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-[11px] uppercase tracking-wide border border-accent-primary/40 text-accent-primary px-3 py-2 hover:bg-accent-primary hover:text-white transition-colors"
+          >
+            Download Resume PDF
+          </a>
+
+          {/* Filter Console */}
+          <div className="font-mono text-xs flex gap-4 text-text-secondary overflow-x-auto pb-2 md:pb-0">
+            {["ALL_SYSTEMS", "MICROSERVICES", "FRONTEND", "FULLSTACK"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`hover:text-text-primary transition-colors ${filter === f ? "text-accent-energy font-bold border-b border-accent-energy" : ""} whitespace-nowrap`}
+              >
+                [{f}]
+              </button>
+            ))}
+          </div>
         </div>
       </motion.div>
 

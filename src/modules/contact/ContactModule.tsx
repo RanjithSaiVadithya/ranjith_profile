@@ -333,7 +333,13 @@ export function ContactModule() {
                    <a href="tel:+919440754054" className="text-white font-bold hover:text-accent-success transition-colors">+91 944 075 4054</a>
                 </div>
              </div>
-             <a href="#" className="font-mono text-[10px] font-bold border border-[#444] px-4 py-2 text-white hover:bg-white hover:text-black uppercase tracking-widest transition-colors w-full sm:w-auto text-center">
+             <a
+               href="/Ranjith_Sai_Vadithya.pdf"
+               download
+               target="_blank"
+               rel="noopener noreferrer"
+               className="font-mono text-[10px] font-bold border border-[#444] px-4 py-2 text-white hover:bg-white hover:text-black uppercase tracking-widest transition-colors w-full sm:w-auto text-center"
+             >
                 [ GET_RESUME.pdf ]
              </a>
           </div>
