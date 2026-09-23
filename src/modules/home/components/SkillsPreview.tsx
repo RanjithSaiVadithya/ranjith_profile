@@ -8,19 +8,19 @@ export function SkillsPreview() {
       title: "SYS.BACKEND",
       color: "border-accent-primary",
       bgCol: "bg-accent-primary",
-      skills: ["Java", "Spring Boot", "Microservices", "Laravel (MVC)", "REST APIs", "Middleware Logic"]
+      skills: ["Java", "Spring Boot", "Microservices", "Laravel", "REST APIs", "Async Processing"]
     },
     {
       title: "SYS.FRONTEND",
       color: "border-accent-energy",
       bgCol: "bg-accent-energy",
-      skills: ["React.js", "JavaScript (ES6+)", "Tailwind CSS", "Bootstrap", "HTML5 / CSS3", "Responsive UI"]
+      skills: ["React.js", "Next.js", "JavaScript", "Tailwind CSS", "Bootstrap", "HTML5 / CSS3"]
     },
     {
       title: "SYS.DATA_INFRA",
-      color: "border-[#475569]", // Slate 600 representing DB/Systems
+      color: "border-[#475569]",
       bgCol: "bg-[#475569]",
-      skills: ["MySQL", "Relational Modeling", "Query Optimization", "SFTP / IMPS", "Razorpay Integration", "Platform Analytics"]
+      skills: ["MySQL", "Redis", "Query Optimization", "AWS EC2 / S3 / RDS", "SFTP / SSH", "Caching"]
     }
   ];
 

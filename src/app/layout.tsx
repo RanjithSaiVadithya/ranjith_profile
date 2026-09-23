@@ -8,20 +8,20 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jet
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ranjith-portfolio-core.web.app"),
-  title: "RanjithSai Vadithya | Full Stack Developer & Sys Architect",
-  description: "Developer portfolio of RanjithSai (Anjit). Exploring React, Next.js, Node.js, Spring Boot, Laravel, and dynamic architectural engineering.",
-  keywords: ["RanjithSai", "Anjit", "Ranjith", "RanjithSai Vadithya", "RanjithSai portfolio", "Full Stack Developer", "Software Engineer", "Web Developer", "React", "Next.js", "Electrical & Electronics Engineering", "B.Tech"],
+  title: "RanjithSai Vadithya | Backend Engineer | Java | Spring Boot",
+  description: "Backend Engineer with nearly 3 years of experience building production applications using Java, Spring Boot, Microservices, Laravel, Redis, MySQL, and React.",
+  keywords: ["RanjithSai", "Ranjith Sai Vadithya", "Backend Engineer", "Java", "Spring Boot", "Microservices", "Laravel", "Redis", "MySQL", "React", "Bangalore"],
   openGraph: {
-    title: "RanjithSai Vadithya | Full Stack Developer",
-    description: "Interactive Engineering Control System representing RanjithSai's developer career.",
+    title: "RanjithSai Vadithya | Backend Engineer",
+    description: "Backend Engineer specializing in Java, Spring Boot, Microservices, Redis, and production performance.",
     url: "https://ranjith-portfolio-core.web.app",
     siteName: "RanjithSai Portfolio",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "RanjithSai Vadithya | Full Stack Developer",
-    description: "Interactive Engineering Control System representing RanjithSai's developer career.",
+    title: "RanjithSai Vadithya | Backend Engineer",
+    description: "Backend Engineer specializing in Java, Spring Boot, Microservices, Redis, and production performance.",
   }
 };
 

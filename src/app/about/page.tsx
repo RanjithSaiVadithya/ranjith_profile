@@ -2,9 +2,9 @@ import { AboutModule } from "@/modules/about/AboutModule";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About RanjithSai | Education & Career Timeline",
-  description: "Learn about RanjithSai Vadithya's educational background, Electrical & Electronics Engineering B.Tech degree, and full stack developer career timeline.",
-  keywords: ["RanjithSai Education", "Anjit Degree", "Electrical & Electronics Engineering", "B.Tech", "RanjithSai Vadithya College", "Spider Hit Infotech"],
+  title: "About RanjithSai | Backend Engineer Profile",
+  description: "Backend Engineer with nearly 3 years of experience in Java, Spring Boot, Microservices, Laravel, Redis, and MySQL. Education and career timeline of Ranjith Sai Vadithya.",
+  keywords: ["RanjithSai Education", "Backend Engineer", "Electrical & Electronics Engineering", "B.Tech", "MudarDzApps Praxo", "Spider Hit Infotech"],
 };
 
 export default function AboutPage() {

@@ -34,12 +34,12 @@ export function HeroSection() {
             RANJITH SAI <br className="hidden md:block" /> VADITHYA.
           </h1>
           <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-accent-energy mb-6 md:mb-8 uppercase tracking-widest font-mono">
-            &gt; Software Developer
+            &gt; Backend Engineer | Java | Spring Boot
           </h2>
           
           <p className="text-[#888] text-sm md:text-lg lg:text-xl font-mono max-w-2xl mb-8 md:mb-12 border-l-2 border-[#333] pl-4 md:pl-6 py-2">
-            Hello. I am a backend and full-stack engineer with 2+ years of experience.<br/>
-            &gt; Specializing in Microservices architectures and enterprise platforms.<br/>
+            Hello. I am a Backend Engineer with nearly 3 years of experience.<br/>
+            &gt; Building production systems with Java, Spring Boot, Microservices, Redis &amp; MySQL.<br/>
             &gt; Initializing connection... OK.
           </p>
 

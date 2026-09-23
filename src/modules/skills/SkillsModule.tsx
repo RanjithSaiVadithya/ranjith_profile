@@ -154,10 +154,10 @@ export function SkillsModule() {
            <div className="bg-surface-card border-t-4 border-accent-primary p-6">
               <h4 className="font-mono font-bold text-sm mb-4 border-b border-text-muted/20 pb-2 text-accent-primary">BACKEND_SYS</h4>
               <ul className="flex flex-col gap-3 font-mono text-xs text-text-secondary">
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Java Spring Boot</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Microservices Architecture</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Laravel Framework</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> PHP Core</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Java / Spring Boot</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Microservices</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> Laravel / PHP</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-primary" /> REST APIs</li>
               </ul>
            </div>
 
@@ -165,21 +165,21 @@ export function SkillsModule() {
            <div className="bg-surface-card border-t-4 border-accent-energy p-6">
               <h4 className="font-mono font-bold text-sm mb-4 border-b border-text-muted/20 pb-2 text-accent-energy">FRONTEND_UI</h4>
               <ul className="flex flex-col gap-3 font-mono text-xs text-text-secondary">
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> React.js</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> JavaScript (ES6+)</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> React.js / Next.js</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> JavaScript</li>
                  <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> HTML5 / CSS3</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> WordPress Systems</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-energy" /> Tailwind / Bootstrap</li>
               </ul>
            </div>
 
            {/* DATA & TOOLS */}
            <div className="bg-surface-card border-t-4 border-[#94a3b8] p-6">
-              <h4 className="font-mono font-bold text-sm mb-4 border-b border-text-muted/20 pb-2 text-[#94a3b8]">DATA & TOOLS</h4>
+              <h4 className="font-mono font-bold text-sm mb-4 border-b border-text-muted/20 pb-2 text-[#94a3b8]">DATA & CLOUD</h4>
               <ul className="flex flex-col gap-3 font-mono text-xs text-text-secondary">
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> MySQL Database</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> Git Version Control</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> Postman Testing</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> Linux CLI</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> MySQL / Redis</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> Query Optimization</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> AWS EC2 / S3 / RDS</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#94a3b8]" /> SSH / SFTP</li>
               </ul>
            </div>
 
@@ -187,10 +187,10 @@ export function SkillsModule() {
            <div className="bg-surface-card border-t-4 border-accent-success p-6">
               <h4 className="font-mono font-bold text-sm mb-4 border-b border-text-muted/20 pb-2 text-accent-success">ARCHITECTURE</h4>
               <ul className="flex flex-col gap-3 font-mono text-xs text-text-secondary">
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> REST API Development</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Database Design</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Payment Integrations</li>
-                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Secure Payout Logic</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Microservices / MVC</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Caching Strategies</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Async Processing</li>
+                 <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-accent-success" /> Performance Tuning</li>
               </ul>
            </div>
 

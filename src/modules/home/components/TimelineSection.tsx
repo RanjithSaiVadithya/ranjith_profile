@@ -14,9 +14,9 @@ export function TimelineSection() {
   const catY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   const events = [
-    { year: "2018", text: "SYS.INIT: Electrical & Electronics Eng." },
+    { year: "2019", text: "SYS.INIT: Electrical & Electronics Eng." },
     { year: "2022", text: "NODE.ACTIVE: B.Tech Graduated." },
-    { year: "2024", text: "DEPLOY: Spider Hit Infotech Pvt Ltd." },
+    { year: "2023", text: "DEPLOY: Spider Hit Infotech Pvt Ltd." },
     { year: "2025", text: "SCALE: MudarDzApps Praxo (Microservices)." },
   ];
 

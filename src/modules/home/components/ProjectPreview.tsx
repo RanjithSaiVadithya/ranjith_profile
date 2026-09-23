@@ -7,12 +7,12 @@ export function ProjectPreview() {
   const router = useRouter();
 
   const projects = [
-    { title: "Praxo", stack: "Java Spring • Microservices", role: "Backend Architecture", desc: "Social media platform with automated creator earnings, scoring, and completely automated IMPS bank settlement systems." },
-    { title: "Ride Wheels", stack: "Laravel • React.js", role: "Full Stack", desc: "Vehicle rental ecosystem featuring multi-level availability checks, scheduling, pricing algorithms, and admin approvals." },
+    { title: "Praxo", stack: "Java • Spring Boot • Redis", role: "Backend Architecture", desc: "Short-video social platform with creator scoring, rewards, payouts, and a Redis-backed personalized feed and recommendation system." },
+    { title: "Ride Wheels", stack: "Laravel • React • MySQL", role: "Backend / Full Stack", desc: "Vehicle rental APIs for listing, booking, scheduling, pricing, payments, referrals, WhatsApp notifications, and SMS OTP auth." },
     { title: "Pet Care E-Comm", stack: "Laravel • Razorpay", role: "Full Stack", desc: "End-to-end e-commerce platform processing dynamic pricing logic, smart product variations, and precise inventory." },
-    { title: "Atal Incubation", stack: "Laravel • BootStrap", role: "Full Stack", desc: "Central program management portal servicing startups via document ingestion and scheduled email alert handlers." },
+    { title: "Atal Incubation", stack: "Laravel • MySQL • Bootstrap", role: "Full Stack", desc: "Incubation management portal for programs, startups, events, blogs, admin charts, document management, and email alerts." },
     { title: "Pallaki Events", stack: "Laravel • React.js", role: "Full Stack", desc: "Tri-panel platform actively orchestrating bookings, analytics, and service mapping for isolated vendor and user entities." },
-    { title: "RightWay Bio Pharma", stack: "Laravel • MySQL", role: "Full Stack", desc: "Pharmaceutical catalog rendering dynamically managed products seamlessly across a lightweight custom CMS." }
+    { title: "RightWay Bio Pharma", stack: "Laravel • MySQL", role: "Full Stack", desc: "Pharmaceutical catalog rendering dynamically managed products seamlessly across a lightweight custom CMS." },
   ];
 
   return (

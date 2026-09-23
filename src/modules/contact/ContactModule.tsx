@@ -96,24 +96,24 @@ export function ContactModule() {
 
   const pastWorks = [
     {
-      title: "Spider Hit Platform",
-      role: "System Architect",
-      tech: "Laravel & React",
-      desc: "Architected scalable enterprise dashboards and e-commerce layers. Handled high-throughput data and modular api integration.",
-      icon: <Server className="w-5 h-5 text-accent-primary" />
-    },
-    {
-      title: "Praxo Core Microservices",
-      role: "Backend Engineer",
-      tech: "Node.js & Redis",
-      desc: "Engineered distributed proxy nodes for handling complex asynchronous task queues across decentralized instances.",
+      title: "MudarDzApps Praxo",
+      role: "Software Engineer",
+      tech: "Java Spring Boot & Redis",
+      desc: "Spring Boot microservices for creator scoring, rewards, payouts, Redis-backed personalized feeds, and IMPS settlement workflows.",
       icon: <Database className="w-5 h-5 text-accent-energy" />
     },
     {
-      title: "Advanced Integrations Sync",
-      role: "API Specialist",
-      tech: "N8N/Razorpay/WhatsApp",
-      desc: "Streamlined business operations by embedding secure payment gateways and massive webhook pipelines.",
+      title: "Spider Hit Infotech",
+      role: "Software Developer",
+      tech: "Laravel & React",
+      desc: "Delivered 12+ enterprise and e-commerce apps with REST APIs, payments, bookings, and React admin dashboards.",
+      icon: <Server className="w-5 h-5 text-accent-primary" />
+    },
+    {
+      title: "Ride Wheels & AIC Portal",
+      role: "Backend / Full Stack",
+      tech: "Laravel / MySQL / React",
+      desc: "Vehicle rental APIs with WhatsApp/SMS workflows, plus an incubation management portal with admin analytics.",
       icon: <Code2 className="w-5 h-5 text-accent-secondary" />
     }
   ];
@@ -334,7 +334,7 @@ export function ContactModule() {
                 </div>
              </div>
              <a
-               href="/Ranjith_Sai_Vadithya.pdf"
+               href="/Ranjith_Sai_Vadithya_.pdf"
                download
                target="_blank"
                rel="noopener noreferrer"

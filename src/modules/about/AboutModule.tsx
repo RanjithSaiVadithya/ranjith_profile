@@ -66,11 +66,10 @@ export function AboutModule() {
         {/* Profile Details & Contact Buttons */}
         <div className="flex-1 flex flex-col z-10 w-full text-center md:text-left pt-2">
           <h3 className="text-3xl md:text-4xl font-black uppercase tracking-widest text-text-primary mb-1">Ranjith Sai Vadithya</h3>
-          <p className="font-mono text-accent-energy font-bold text-xs md:text-sm tracking-widest mb-6 border-b border-text-muted/20 pb-4 inline-block">SYS_ARCHITECT // FULL_STACK_DEV</p>
+          <p className="font-mono text-accent-energy font-bold text-xs md:text-sm tracking-widest mb-6 border-b border-text-muted/20 pb-4 inline-block">BACKEND ENGINEER // JAVA | SPRING BOOT | MICROSERVICES</p>
           
           <p className="text-text-secondary text-sm md:text-base mb-8 leading-relaxed max-w-2xl font-medium">
-            Software Developer with nearly 2 years of experience building scalable backend and full-stack applications using Java Spring Microservices, Laravel, React.js, and MySQL. 
-            Delivered 12+ full-stack projects across e-commerce, admin dashboards, and enterprise platforms. Known for clean code, strong problem-solving, and delivering production-ready systems.
+            Backend Engineer with nearly 3 years of experience building and maintaining production applications using Java, Spring Boot, Microservices, Laravel, Redis, MySQL, and React. Experienced in designing REST APIs, backend services, personalized feed and recommendation systems, payment and payout workflows, database optimization, caching, and production performance troubleshooting. Hands-on experience building scalable systems and solving backend performance, concurrency, and data-processing challenges in production environments.
           </p>
 
            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start font-mono text-xs border-l-4 border-accent-primary pl-6 py-2 bg-text-muted/5 rounded-r-lg w-fit">
@@ -113,7 +112,8 @@ export function AboutModule() {
                  INITIATE WHATSAPP CHAT
               </a>
              <a
-                 href="/Ranjith_Sai_Vadithya.pdf"
+             ///Users/ranjith/development/RanjithSai_profile/public/Ranjith_Sai_Vadithya_.pdf
+                 href="/Ranjith_Sai_Vadithya_.pdf"
                  download
                  target="_blank"
                  rel="noopener noreferrer"
@@ -215,7 +215,7 @@ export function AboutModule() {
               transition={{ delay: 0.1 }}
             >
               <h4 className="font-black text-xl uppercase mb-2">Microservice Infrastructure</h4>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed">Engineered distributed nodes and core routing proxies. Designed resilient APIs, asynchronous job processing, and scalable fault-tolerant data layers.</p>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Designed and developed Java Spring Boot microservices and REST APIs supporting core social-media, creator, rewards, and financial workflows with a focus on data integrity.</p>
             </motion.div>
 
             {/* Card 2: Spider Hit / Enterprise */}
@@ -227,7 +227,7 @@ export function AboutModule() {
               transition={{ delay: 0.2 }}
             >
               <h4 className="font-black text-xl uppercase mb-2">Spider Hit Platform</h4>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed">Delivering full-stack enterprise dashboards, modular systems, and high-volume e-commerce solutions utilizing advanced Laravel & React state.</p>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Developed and maintained 12+ enterprise and e-commerce applications using Laravel, MySQL, React.js, and REST APIs across authentication, payments, bookings, and admin operations.</p>
             </motion.div>
 
             {/* Card 3: Integrations */}
@@ -239,7 +239,7 @@ export function AboutModule() {
               transition={{ delay: 0.3 }}
             >
               <h4 className="font-black text-xl uppercase mb-2">Pipeline Integrations</h4>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed">Seamlessly connected 3rd-party tools. Implemented Razorpay payment gateways, WhatsApp Business APIs, and automated N8N workflow clusters.</p>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Integrated WhatsApp and SMS for transactional notifications and OTP delivery, plus automated settlement workflows with Excel reports, SFTP processing, and IMPS payouts.</p>
             </motion.div>
 
             {/* Card 4: Data Layer */}
@@ -251,7 +251,7 @@ export function AboutModule() {
               transition={{ delay: 0.4 }}
             >
               <h4 className="font-black text-xl uppercase mb-2">OptimiZED Data Layers</h4>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed">Optimized complex relational structures in MySQL alongside Redis caching layers to radically reduce payload latency on critical read-paths.</p>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Designed Redis-backed personalized feeds and recommendation systems, optimized MySQL queries and indexing, and reduced database overhead by ~25% in production.</p>
             </motion.div>
           </div>
         </div>
