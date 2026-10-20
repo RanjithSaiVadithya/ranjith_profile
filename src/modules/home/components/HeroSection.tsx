@@ -1,78 +1,111 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { animations } from "@/core/AnimationEngine";
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 
-// Animated blinking cursor
-function BlinkingCursor() {
+/* ─── Magnetic tilt wrapper ─────────────────────────────────────────── */
+function MagneticTilt({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(useTransform(y, [-1, 1], [6, -6]), { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(useTransform(x, [-1, 1], [-6, 6]), { stiffness: 200, damping: 20 });
+
+  function handleMouse(e: React.MouseEvent<HTMLDivElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    x.set(((e.clientX - rect.left) / rect.width) * 2 - 1);
+    y.set(((e.clientY - rect.top) / rect.height) * 2 - 1);
+  }
+
+  function handleLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      onMouseMove={handleMouse}
+      onMouseLeave={handleLeave}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ─── Glitch text on hover ──────────────────────────────────────────── */
+function GlitchText({ text, className }: { text: string; className?: string }) {
   return (
     <motion.span
-      className="inline-block w-2 h-4 bg-accent-energy align-middle ml-1"
-      animate={{ opacity: [1, 0, 1] }}
-      transition={{ duration: 1, repeat: Infinity, ease: "steps(1)" }}
-    />
+      className={`relative inline-block cursor-default select-none ${className ?? ""}`}
+      whileHover="hover"
+      initial="rest"
+    >
+      {/* Main text */}
+      <motion.span
+        variants={{
+          rest: { x: 0, textShadow: "none" },
+          hover: {
+            textShadow: [
+              "2px 0 #00F2FF, -2px 0 #FF003C",
+              "-2px 0 #00F2FF, 2px 0 #FF003C",
+              "0px 0 #00F2FF, 0px 0 #FF003C",
+            ],
+            transition: { duration: 0.25, repeat: 2, repeatType: "mirror" },
+          },
+        }}
+        className="relative z-10"
+      >
+        {text}
+      </motion.span>
+
+      {/* Underline sweep */}
+      <motion.span
+        variants={{
+          rest: { scaleX: 0, originX: 0 },
+          hover: { scaleX: 1, originX: 0, transition: { duration: 0.25, ease: "easeOut" } },
+        }}
+        className="absolute bottom-0 left-0 w-full h-[2px] bg-accent-energy"
+      />
+    </motion.span>
   );
 }
 
-// Uptime counter — counts seconds since mount
-function UptimeCounter() {
-  const [seconds, setSeconds] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setSeconds((s) => s + 1), 1000);
-    return () => clearInterval(t);
-  }, []);
-  const hh = String(Math.floor(seconds / 3600)).padStart(2, "0");
-  const mm = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
-  const ss = String(seconds % 60).padStart(2, "0");
-  return <span className="text-accent-energy">{hh}:{mm}:{ss}</span>;
-}
-
-// Terminal lines that type in one by one
-const TERMINAL_LINES = [
-  { prefix: "$", text: " engineer.init()", color: "text-[#aaa]" },
-  { prefix: ">", text: " loading dependencies...", color: "text-[#666]" },
-  { prefix: ">", text: " java          [OK]", color: "text-[#666]" },
-  { prefix: ">", text: " spring-boot   [OK]", color: "text-[#666]" },
-  { prefix: ">", text: " microservices [OK]", color: "text-[#666]" },
-  { prefix: ">", text: " redis         [OK]", color: "text-[#666]" },
-  { prefix: ">", text: " mysql         [OK]", color: "text-[#666]" },
-  { prefix: "✓", text: " STATUS: ONLINE", color: "text-accent-energy" },
-];
-
-function TerminalLines() {
-  const [visibleCount, setVisibleCount] = useState(0);
-
-  useEffect(() => {
-    if (visibleCount >= TERMINAL_LINES.length) return;
-    const t = setTimeout(() => setVisibleCount((c) => c + 1), 320);
-    return () => clearTimeout(t);
-  }, [visibleCount]);
-
+/* ─── Hover-lit stat block ───────────────────────────────────────────── */
+function StatBlock({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-[6px] font-mono text-xs">
-      {TERMINAL_LINES.slice(0, visibleCount).map((line, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, x: -6 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.2 }}
-          className="flex items-start gap-2"
-        >
-          <span className="text-accent-energy select-none w-3 shrink-0">
-            {line.prefix}
-          </span>
-          <span className={line.color}>{line.text}</span>
-        </motion.div>
-      ))}
-    </div>
+    <motion.div
+      className="flex flex-col gap-1 cursor-default group"
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 300, damping: 18 }}
+    >
+      <div className="text-[#555] text-[10px] font-mono uppercase tracking-widest group-hover:text-[#888] transition-colors duration-200">
+        {label}
+      </div>
+      <div className="text-white font-bold font-mono text-sm group-hover:text-accent-energy transition-colors duration-200">
+        {value}
+      </div>
+      <motion.div
+        className="h-px bg-accent-energy"
+        initial={{ scaleX: 0, originX: 0 }}
+        whileHover={{ scaleX: 1 }}
+        transition={{ duration: 0.2 }}
+      />
+    </motion.div>
   );
 }
 
+/* ─── Hero ───────────────────────────────────────────────────────────── */
 export function HeroSection() {
   return (
-    <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center items-start pt-20 px-4 md:px-8 lg:px-16 overflow-hidden bg-black z-0">
-      {/* Blueprint Grid Overlay */}
+    <div className="sticky top-0 h-[100dvh] w-full flex flex-col justify-center items-start pt-20 px-4 md:px-8 lg:px-20 overflow-hidden bg-black z-0">
+
+      {/* Blueprint Grid */}
       <div
         className="absolute inset-0 pointer-events-none z-[-1]"
         style={{
@@ -82,120 +115,103 @@ export function HeroSection() {
         }}
       />
 
+      {/* Radial glow that follows the section center */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-[-1]"
+        animate={{
+          background: [
+            "radial-gradient(ellipse 60% 50% at 30% 50%, #00F2FF08 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 40% 55%, #00F2FF10 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 30% 50%, #00F2FF08 0%, transparent 70%)",
+          ],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+
       <motion.div
         variants={animations.slam}
         initial="initial"
         animate="animate"
-        className="w-full max-w-6xl z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12"
+        className="w-full max-w-5xl z-10"
       >
-        {/* ── LEFT: Text content ── */}
-        <div className="flex-1 min-w-0">
-          <div className="mb-8 flex items-center gap-4">
-            <div className="px-3 py-1 bg-[#111] text-accent-energy font-mono text-xs font-bold uppercase tracking-widest inline-block border-l-2 border-accent-energy">
-              SYS.RUNNING // STATUS: ONLINE
-            </div>
-            <div className="h-px bg-[#111] w-24" />
-          </div>
+        {/* Status badge */}
+        <motion.div
+          className="mb-10 flex items-center gap-4"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <motion.div
+            className="px-3 py-1 bg-[#0a0a0a] text-accent-energy font-mono text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2 border-l-2 border-accent-energy"
+            whileHover={{
+              backgroundColor: "#00F2FF14",
+              boxShadow: "0 0 20px #00F2FF30",
+              transition: { duration: 0.2 },
+            }}
+          >
+            <motion.span
+              className="w-1.5 h-1.5 rounded-full bg-accent-energy"
+              animate={{ opacity: [1, 0.2, 1] }}
+              transition={{ duration: 1.4, repeat: Infinity }}
+            />
+            SYS.RUNNING // STATUS: ONLINE
+          </motion.div>
+          <div className="h-px bg-[#1a1a1a] flex-1 max-w-[120px]" />
+        </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white uppercase tracking-tight leading-none mb-2 mt-4 break-words">
-            RANJITH SAI <br className="hidden md:block" /> VADITHYA.
+        {/* Headline with 3-D tilt + glitch */}
+        <MagneticTilt>
+          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[7rem] xl:text-[8rem] font-black text-white uppercase tracking-tight leading-none mb-4 break-words">
+            <GlitchText text="RANJITH SAI" />
+            <br />
+            <GlitchText text="VADITHYA." className="text-accent-energy" />
           </h1>
-          <h2 className="text-lg sm:text-xl md:text-3xl font-bold text-accent-energy mb-6 md:mb-8 uppercase tracking-widest font-mono">
-            &gt; Backend Engineer | Java | Spring Boot
-          </h2>
+        </MagneticTilt>
 
-          <p className="text-[#888] text-sm md:text-lg lg:text-xl font-mono max-w-2xl mb-8 md:mb-12 border-l-2 border-[#333] pl-4 md:pl-6 py-2">
+        {/* Role */}
+        <motion.h2
+          className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[#666] mb-8 uppercase tracking-widest font-mono cursor-default"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          whileHover={{ color: "#00F2FF", x: 6, transition: { duration: 0.2 } }}
+        >
+          &gt; Backend Engineer | Java | Spring Boot
+        </motion.h2>
+
+        {/* Description */}
+        <motion.div
+          className="relative max-w-3xl mb-12 border-l-2 border-[#1e1e1e] pl-6 py-2 group cursor-default"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          whileHover={{ borderColor: "#00F2FF40", transition: { duration: 0.3 } }}
+        >
+          <p className="text-[#666] text-sm md:text-base lg:text-lg font-mono leading-relaxed group-hover:text-[#888] transition-colors duration-300">
             Hello. I am a Backend Engineer with nearly 3 years of experience.<br />
             &gt; Building production systems with Java, Spring Boot, Microservices, Redis &amp; MySQL.<br />
             &gt; Initializing connection... OK.
           </p>
-
-          {/* Monospace Status Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 font-mono text-xs border-y border-[#111] py-4 w-full md:w-3/4">
-            <div>
-              <div className="text-[#555] mb-1">LATENCY</div>
-              <div className="text-white font-bold animate-pulse">12ms</div>
-            </div>
-            <div>
-              <div className="text-[#555] mb-1">THREADS</div>
-              <div className="text-white font-bold">16_ACTIVE</div>
-            </div>
-            <div>
-              <div className="text-[#555] mb-1">OVERRIDE</div>
-              <div className="text-accent-energy font-bold">GRANTED</div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── RIGHT: Terminal Panel ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="hidden lg:flex flex-col w-[340px] shrink-0 border border-[#222] bg-[#050505] relative group overflow-hidden"
-        >
-          {/* Cyber corner accents */}
-          <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-accent-energy z-30 transition-all duration-500 group-hover:w-full group-hover:h-full group-hover:border-accent-energy/30 pointer-events-none" />
-          <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-accent-energy z-30 transition-all duration-500 group-hover:w-full group-hover:h-full group-hover:border-accent-energy/30 pointer-events-none" />
-
-          {/* Scanline */}
+          {/* Animated left border glow */}
           <motion.div
-            className="absolute left-0 w-full h-[2px] bg-accent-energy/40 shadow-[0_0_12px_#00F2FF] z-20 pointer-events-none"
-            animate={{ top: ["0%", "100%", "0%"] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            className="absolute left-[-2px] top-0 w-[2px] bg-accent-energy"
+            initial={{ height: "0%" }}
+            whileHover={{ height: "100%", transition: { duration: 0.4, ease: "easeOut" } }}
           />
+        </motion.div>
 
-          {/* Terminal header bar */}
-          <div className="flex items-center gap-2 px-4 py-2 border-b border-[#1a1a1a] bg-[#0a0a0a] shrink-0">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#333]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-[#333]" />
-            <div className="w-2.5 h-2.5 rounded-full bg-accent-energy/60" />
-            <span className="ml-2 font-mono text-[10px] text-[#444] tracking-widest uppercase">
-              engineer.sh
-            </span>
-          </div>
-
-          {/* Terminal body */}
-          <div className="flex-1 px-5 py-5 flex flex-col gap-5">
-            {/* Uptime */}
-            <div className="font-mono text-xs text-[#555]">
-              <span className="text-accent-energy">$</span>{" "}
-              <span className="text-[#aaa]">uptime</span>
-              <br />
-              <span className="text-[#444] pl-2">session_uptime=</span>
-              <UptimeCounter />
-            </div>
-
-            {/* Divider */}
-            <div className="border-t border-[#181818]" />
-
-            {/* Typed lines */}
-            <TerminalLines />
-
-            {/* Divider */}
-            <div className="border-t border-[#181818]" />
-
-            {/* Stack */}
-            <div className="font-mono text-xs text-[#555]">
-              <span className="text-accent-energy">$</span>{" "}
-              <span className="text-[#aaa]">cat stack.txt</span>
-              <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 pl-2 text-[#666]">
-                {["Java", "Spring Boot", "Redis", "MySQL", "Docker", "Kafka", "AWS"].map(
-                  (s) => (
-                    <span key={s} className="text-[#555]">
-                      {s}
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
-
-            {/* Prompt with cursor */}
-            <div className="font-mono text-xs text-[#444] mt-auto">
-              <span className="text-accent-energy">$</span>{" "}
-              <BlinkingCursor />
-            </div>
-          </div>
+        {/* Stats row */}
+        <motion.div
+          className="grid grid-cols-3 sm:grid-cols-5 gap-6 md:gap-10 border-t border-[#111] pt-6 w-full max-w-2xl"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <StatBlock label="Latency" value="12ms" />
+          <StatBlock label="Threads" value="16_ACTIVE" />
+          <StatBlock label="Override" value="GRANTED" />
+          <StatBlock label="Experience" value="~3 YRS" />
+          <StatBlock label="Stack" value="JAVA++" />
         </motion.div>
       </motion.div>
 
@@ -209,15 +225,8 @@ export function HeroSection() {
         <span>SCROLL</span>
         <motion.div
           className="w-4 h-6 border-2 border-accent-energy flex justify-center p-1"
-          animate={{ y: 10 }}
-          transition={{
-            repeat: Infinity,
-            repeatType: "reverse",
-            duration: 0.8,
-            type: "spring",
-            stiffness: 200,
-            damping: 10,
-          }}
+          animate={{ y: 8 }}
+          transition={{ repeat: Infinity, repeatType: "reverse", duration: 0.8, type: "spring", stiffness: 200, damping: 10 }}
         >
           <div className="w-1 h-1 bg-accent-energy rounded-full" />
         </motion.div>
