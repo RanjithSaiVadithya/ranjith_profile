@@ -1,0 +1,37 @@
+name: Production Deployment Pipeline
+
+# Trigger the workflow every time you push to the main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy Application to VPS
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Fetch the latest code from your GitHub repository onto the runner
+    - name: Checkout Source Code
+      uses: actions/checkout@v4
+
+    # Step 2: Connect to your VPS via SSH and run deployment commands
+    - name: Executing Remote SSH Commands
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          # Navigate to your specific project directory on the VPS
+          cd ~/projects/ranjith_profile
+          
+          # Pull the latest changes from the main branch into the server
+          git pull origin main
+          
+          # Note: If this is a React/Node.js project, uncomment the lines below:
+          # npm install
+          # npm run build
+          
+          echo "Ranjith Profile Deployed Successfully!"
