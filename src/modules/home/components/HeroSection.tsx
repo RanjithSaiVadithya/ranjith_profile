@@ -44,29 +44,48 @@ function useCanvasGrid(heroRef: React.RefObject<HTMLDivElement | null>) {
     /* ─── Draw fine sub-grid (tennis-racket style) inside one large cell ─── */
     function drawCell(cellX: number, cellY: number, cellAlpha: number) {
       if (cellAlpha < 0.01) return;
-      const SUB = 10; // sub-cell size — dense like a tennis racket
+      // Three layers – outer (10px), middle (5px), inner (2px)
+      const layers = [
+        { step: 10, opacity: 0.28 },
+        { step: 5,  opacity: 0.22 },
+        { step: 2,  opacity: 0.16 },
+      ];
 
-      ctx.lineWidth = 0.5;
+      // Resolve dark grid colour from CSS variable
+      const baseColor = getComputedStyle(hero!).getPropertyValue('--grid-line-color').trim() || '#1d1d1d';
+      const rgb = (() => {
+        const ctxTmp = document.createElement('canvas').getContext('2d')!;
+        ctxTmp.fillStyle = baseColor;
+        const computed = ctxTmp.fillStyle; // will be in rgb(r,g,b) format
+        const match = computed.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        return match ? { r: +match[1], g: +match[2], b: +match[3] } : { r: 29, g: 29, b: 29 };
+      })();
 
-      // Interior vertical lines
-      for (let x = cellX + SUB; x < cellX + LARGE; x += SUB) {
-        ctx.strokeStyle = `rgba(0,242,255,${0.28 * cellAlpha})`;
-        ctx.beginPath();
-        ctx.moveTo(x, cellY);
-        ctx.lineTo(x, cellY + LARGE);
-        ctx.stroke();
-      }
-      // Interior horizontal lines
-      for (let y = cellY + SUB; y < cellY + LARGE; y += SUB) {
-        ctx.strokeStyle = `rgba(0,242,255,${0.28 * cellAlpha})`;
-        ctx.beginPath();
-        ctx.moveTo(cellX, y);
-        ctx.lineTo(cellX + LARGE, y);
-        ctx.stroke();
-      }
+      const rgba = (a: number) => `rgba(${rgb.r},${rgb.g},${rgb.b},${a})`;
 
-      // Cell border glow (brighter the more alpha)
-      ctx.strokeStyle = `rgba(0,242,255,${0.6 * cellAlpha})`;
+      layers.forEach(l => {
+        const spacing = l.step;
+        const op = l.opacity;
+        // vertical lines
+        for (let x = cellX + spacing; x < cellX + LARGE; x += spacing) {
+          ctx.strokeStyle = rgba(op * cellAlpha);
+          ctx.beginPath();
+          ctx.moveTo(x, cellY);
+          ctx.lineTo(x, cellY + LARGE);
+          ctx.stroke();
+        }
+        // horizontal lines
+        for (let y = cellY + spacing; y < cellY + LARGE; y += spacing) {
+          ctx.strokeStyle = rgba(op * cellAlpha);
+          ctx.beginPath();
+          ctx.moveTo(cellX, y);
+          ctx.lineTo(cellX + LARGE, y);
+          ctx.stroke();
+        }
+      });
+
+      // Cell border glow – brightest (use same dark colour with higher opacity)
+      ctx.strokeStyle = rgba(0.6 * cellAlpha);
       ctx.lineWidth   = 0.8;
       ctx.strokeRect(cellX + 0.5, cellY + 0.5, LARGE - 1, LARGE - 1);
     }
@@ -273,12 +292,13 @@ export function HeroSection() {
         paddingRight:  "clamp(1.25rem, 5vw, 6rem)",
       }}
     >
-      {/* ── Static base large grid (CSS) — covers full hero ── */}
+      {/* ── Static base large grid (CSS) — covers full hero, and expose grid colour variable ── */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
+          '--grid-line-color': '#1d1d1d',
           backgroundImage:
-            "linear-gradient(#1d1d1d 1px, transparent 1px), linear-gradient(90deg, #1d1d1d 1px, transparent 1px)",
+            "linear-gradient(var(--grid-line-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px)",
           backgroundSize: `${LARGE}px ${LARGE}px`,
         }}
       />
