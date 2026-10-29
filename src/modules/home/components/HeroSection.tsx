@@ -295,12 +295,14 @@ export function HeroSection() {
       {/* ── Static base large grid (CSS) — covers full hero, and expose grid colour variable ── */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
-        style={{
-          '--grid-line-color': '#1d1d1d',
-          backgroundImage:
-            "linear-gradient(var(--grid-line-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px)",
-          backgroundSize: `${LARGE}px ${LARGE}px`,
-        }}
+        style={
+          {
+            "--grid-line-color": "#1d1d1d",
+            backgroundImage:
+              "linear-gradient(var(--grid-line-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line-color) 1px, transparent 1px)",
+            backgroundSize: `${LARGE}px ${LARGE}px`,
+          } as React.CSSProperties
+        }
       />
 
       {/* ── Canvas: interactive hover grid (pointer-events:none so elementFromPoint works) ── */}

@@ -1,37 +1,75 @@
-name: Production Deployment Pipeline
+name: Deploy to VPS
 
-# Trigger the workflow every time you push to the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy Application to VPS
+    name: Build & Deploy on VPS
     runs-on: ubuntu-latest
-    
-    steps:
-    # Step 1: Fetch the latest code from your GitHub repository onto the runner
-    - name: Checkout Source Code
-      uses: actions/checkout@v4
+    timeout-minutes: 20
 
-    # Step 2: Connect to your VPS via SSH and run deployment commands
-    - name: Executing Remote SSH Commands
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          # Navigate to your specific project directory on the VPS
-          cd ~/projects/ranjith_profile
-          
-          # Pull the latest changes from the main branch into the server
-          git pull origin main
-          
-          # Note: If this is a React/Node.js project, uncomment the lines below:
-          # npm install
-          # npm run build
-          
-          echo "Ranjith Profile Deployed Successfully!"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script_stop: true
+          command_timeout: 15m
+          script: |
+            set -euo pipefail
+
+            APP_DIR="${HOME}/projects/ranjith-profile"
+            APP_NAME="ranjith-profile"
+            NODE_VERSION="20"
+
+            echo "==> Entering ${APP_DIR}"
+            cd "${APP_DIR}"
+
+            echo "==> Fetching latest main"
+            git fetch origin main
+            git reset --hard origin/main
+
+            # Load nvm if present (common on VPS Node installs)
+            if [ -s "${HOME}/.nvm/nvm.sh" ]; then
+              # shellcheck disable=SC1090
+              . "${HOME}/.nvm/nvm.sh"
+              nvm use "${NODE_VERSION}" || nvm install "${NODE_VERSION}"
+            fi
+
+            echo "==> Node: $(node -v) | npm: $(npm -v)"
+
+            echo "==> Installing dependencies"
+            npm ci
+
+            echo "==> Building Next.js app"
+            npm run build
+
+            echo "==> Restarting process"
+            if command -v pm2 >/dev/null 2>&1; then
+              if pm2 describe "${APP_NAME}" >/dev/null 2>&1; then
+                pm2 restart "${APP_NAME}" --update-env
+              else
+                # First deploy: start Next on port 3000 (change if your reverse proxy expects another port)
+                pm2 start npm --name "${APP_NAME}" -- start
+                pm2 save
+              fi
+              pm2 status "${APP_NAME}"
+            else
+              echo "WARNING: pm2 not found. Build succeeded; start the app manually or install pm2."
+              echo "  npm i -g pm2 && pm2 start npm --name ${APP_NAME} -- start && pm2 save"
+            fi
+
+            echo "==> Deploy complete: $(git rev-parse --short HEAD)"
