@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ranjith_profile_pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: portfolio
+    ports:
+      # Homebrew PostgreSQL 17 already owns localhost:5432 and has no
+      # `postgres` role. Publishing on 5433 keeps that server untouched.
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "portfolio"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+volumes:
+  pgdata:
