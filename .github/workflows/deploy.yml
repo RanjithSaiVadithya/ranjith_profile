@@ -34,13 +34,27 @@ jobs:
             APP_DIR="${HOME}/projects/ranjith-profile"
             APP_NAME="ranjith-profile"
             NODE_VERSION="20"
+            # Port 3000 is used by another Docker app on this VPS
+            APP_PORT="3010"
+            ENV_BACKUP="/tmp/ranjith-profile.env.local.bak"
 
             echo "==> Entering ${APP_DIR}"
             cd "${APP_DIR}"
 
+            # Preserve .env.local across git reset (not in the repo)
+            if [ -f .env.local ]; then
+              cp .env.local "${ENV_BACKUP}"
+              echo "==> Backed up .env.local"
+            fi
+
             echo "==> Fetching latest main"
             git fetch origin main
             git reset --hard origin/main
+
+            if [ ! -f .env.local ] && [ -f "${ENV_BACKUP}" ]; then
+              cp "${ENV_BACKUP}" .env.local
+              echo "==> Restored .env.local"
+            fi
 
             # Load nvm if present (common on VPS Node installs)
             if [ -s "${HOME}/.nvm/nvm.sh" ]; then
@@ -57,21 +71,20 @@ jobs:
             echo "==> Building Next.js app"
             npm run build
 
-            # Port 3000 is used by another Docker app on this VPS
-            APP_PORT="3010"
-
             echo "==> Restarting process on :${APP_PORT}"
             if command -v pm2 >/dev/null 2>&1; then
               if pm2 describe "${APP_NAME}" >/dev/null 2>&1; then
-                pm2 restart "${APP_NAME}" --update-env
-              else
-                pm2 start npm --name "${APP_NAME}" --cwd "${APP_DIR}" -- start -- -p "${APP_PORT}"
-                pm2 save
+                pm2 delete "${APP_NAME}" || true
               fi
+              fuser -k "${APP_PORT}/tcp" 2>/dev/null || true
+              sleep 1
+              pm2 start npm --name "${APP_NAME}" --cwd "${APP_DIR}" -- start -- -p "${APP_PORT}"
+              pm2 save
               pm2 status "${APP_NAME}"
             else
               echo "WARNING: pm2 not found. Build succeeded; start the app manually or install pm2."
               echo "  npm i -g pm2 && pm2 start npm --name ${APP_NAME} --cwd ${APP_DIR} -- start -- -p ${APP_PORT} && pm2 save"
+              exit 1
             fi
 
             echo "==> Deploy complete: $(git rev-parse --short HEAD)"
