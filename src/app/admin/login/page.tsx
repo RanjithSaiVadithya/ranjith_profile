@@ -35,7 +35,7 @@ export default function AdminLogin() {
 
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem("admin_token", data.token); // Store the DB ref ID
+        localStorage.setItem("admin_token", data.token);
         if (rememberEmail) {
           localStorage.setItem("admin_login_email", email);
         } else {
@@ -44,14 +44,14 @@ export default function AdminLogin() {
         router.push("/admin/dashboard");
       } else {
         const data = await res.json().catch(() => ({}));
-        if (data.details?.includes('Firestore API has not been used')) {
-           setErrorText('FIRESTORE_NOT_ENABLED: Please enable Firestore Database in your Firebase Console.');
+        if (data.details?.includes("Firestore API has not been used")) {
+          setErrorText("Firestore is not enabled. Enable Firestore in Firebase Console.");
         } else {
-           setErrorText('AUTH_FAILED: Invalid Credentials');
+          setErrorText("Invalid email or password.");
         }
       }
-    } catch (err) {
-      setErrorText('AUTH_FAILED: Server Offline');
+    } catch {
+      setErrorText("Server offline. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -60,27 +60,27 @@ export default function AdminLogin() {
   return (
     <div className="min-h-screen bg-background-main flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
-      
-      <motion.form 
+
+      <motion.form
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        onSubmit={handleLogin} 
+        onSubmit={handleLogin}
         className="bg-surface-card border-2 border-text-muted/20 p-8 w-full max-w-md relative z-10 shadow-2xl"
       >
         <div className="mb-8 border-b-2 border-text-muted/20 pb-4">
-          <h1 className="text-3xl font-black uppercase tracking-widest text-text-primary">SYS_ADMIN</h1>
-          <p className="font-mono text-xs text-text-muted mt-2">RESTRICTED ACCESS NODE</p>
+          <h1 className="text-3xl font-black uppercase tracking-widest text-text-primary">Admin Login</h1>
+          <p className="font-mono text-xs text-text-muted mt-2">Manage feed posts and contact messages</p>
         </div>
 
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
-            <label className="font-mono text-xs uppercase text-accent-primary">Enter Email</label>
-            <input 
-              type="email" 
+            <label className="font-mono text-xs uppercase text-accent-primary">Email</label>
+            <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="bg-white border-2 border-text-muted/40 p-3 font-mono text-text-primary placeholder:text-text-muted/70 outline-none focus:border-accent-primary rounded-sm transition-colors"
-              placeholder="admin@system.local"
+              placeholder="your@email.com"
               required
               autoFocus
               autoComplete="email"
@@ -88,7 +88,7 @@ export default function AdminLogin() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="font-mono text-xs uppercase text-accent-energy">Enter Security Key</label>
+            <label className="font-mono text-xs uppercase text-accent-energy">Password</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -121,13 +121,13 @@ export default function AdminLogin() {
           </label>
 
           {errorText && <span className="font-mono text-xs text-accent-warning mt-[-10px]">{errorText}</span>}
-          
-          <button 
-            type="submit" 
+
+          <button
+            type="submit"
             disabled={loading}
             className="mt-2 bg-accent-primary text-white font-bold font-mono py-4 border-2 border-transparent hover:bg-surface-dark hover:text-white hover:border-accent-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "AUTHENTICATING..." : "INITIALIZE_SESSION"}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </div>
       </motion.form>
