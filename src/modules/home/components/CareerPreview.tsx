@@ -7,7 +7,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const roles = [
   {
@@ -57,9 +57,27 @@ const roles = [
 export function CareerPreview() {
   const [activeId, setActiveId] = useState(roles[0].id);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  /** 0 = boot, 1 = loading, 2 = role, 3 = passed (done) */
+  const [logStep, setLogStep] = useState(3);
   const active = roles.find((r) => r.id === activeId) ?? roles[0];
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setLogStep(3);
+      return;
+    }
+
+    setLogStep(0);
+    const timers = [
+      window.setTimeout(() => setLogStep(1), 280),
+      window.setTimeout(() => setLogStep(2), 700),
+      window.setTimeout(() => setLogStep(3), 1100),
+    ];
+
+    return () => timers.forEach((id) => window.clearTimeout(id));
+  }, [activeId, reduceMotion]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -145,7 +163,10 @@ export function CareerPreview() {
                   aria-selected={isActive}
                   title={`Click to load ${role.company} in terminal`}
                   variants={railItem}
-                  onClick={() => setActiveId(role.id)}
+                  onClick={() => {
+                    setActiveId(role.id);
+                    if (!reduceMotion) setLogStep(0);
+                  }}
                   onHoverStart={() => setHoveredId(role.id)}
                   onHoverEnd={() => setHoveredId(null)}
                   whileHover={reduceMotion ? undefined : { x: 4 }}
@@ -301,12 +322,41 @@ export function CareerPreview() {
                   <br />
                   <br />
                   <div className="w-full h-px border-b border-dashed border-text-muted/30 my-3" />
-                  &gt; Loading {active.company}…
-                  <br />
-                  &gt; Role: {active.title}
-                  <br />
-                  &gt; Scalability checks passed.
-                  <br />
+
+                  <div className="space-y-1 min-h-[4.5rem]">
+                    {logStep === 0 && (
+                      <span className="text-text-muted">&gt; Booting module…</span>
+                    )}
+                    {logStep >= 1 && (
+                      <motion.div
+                        initial={reduceMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        &gt; Loading {active.company}…
+                      </motion.div>
+                    )}
+                    {logStep >= 2 && (
+                      <motion.div
+                        initial={reduceMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.18 }}
+                      >
+                        &gt; Role: {active.title}
+                      </motion.div>
+                    )}
+                    {logStep >= 3 && (
+                      <motion.div
+                        initial={reduceMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.18 }}
+                        className="text-accent-success"
+                      >
+                        &gt; Scalability checks passed.
+                      </motion.div>
+                    )}
+                  </div>
+
                   <motion.div
                     className="w-2 h-4 bg-text-primary inline-block mt-2"
                     animate={reduceMotion ? { opacity: 1 } : { opacity: [0, 1] }}
