@@ -1,14 +1,64 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { animations } from "@/core/AnimationEngine";
 import { TimelineSection } from "../home/components/TimelineSection";
 
+const careerRoles = [
+  {
+    id: "rayudu",
+    company: "Rayudu Group",
+    title: "Senior Software Engineer & Tech Team Lead",
+    period: "10/2026 – Present",
+    location: "Anantapur, Andhra Pradesh",
+    accent: "text-accent-energy",
+    bar: "bg-accent-energy",
+    bullets: [
+      "Lead technical development and engineering coordination to deliver backend features and platform enhancements for production applications.",
+      "Design and maintain scalable backend services, REST APIs, and application integrations, following modular architecture and maintainable coding practices.",
+      "Guide technical implementation, code reviews, debugging, and testing to improve code quality and application reliability.",
+      "Coordinate feature development across the software development lifecycle (SDLC), including requirement analysis, implementation, integration, and deployment support.",
+      "Collaborate with cross-functional stakeholders to translate business requirements into technical solutions and deliver features within project timelines.",
+      "Contribute to backend architecture, database integration, performance optimization, and production troubleshooting to improve system reliability.",
+    ],
+  },
+  {
+    id: "praxo",
+    company: "MudarDzApps Praxo",
+    title: "Software Engineer",
+    period: "08/2025 – 09/2026",
+    location: null,
+    accent: "text-accent-primary",
+    bar: "bg-accent-primary",
+    bullets: [
+      "Built Java Spring Boot microservices for creator scoring, rewards, payouts, and settlement workflows.",
+      "Designed Redis-backed personalized feeds and recommendation systems, reducing database overhead by ~25%.",
+      "Automated financial settlement pipelines with Excel reports, SFTP processing, and IMPS payouts.",
+    ],
+  },
+  {
+    id: "spider",
+    company: "Spider Hit Infotech",
+    title: "Software Developer",
+    period: "12/2023 – 07/2025",
+    location: null,
+    accent: "text-accent-secondary",
+    bar: "bg-accent-secondary",
+    bullets: [
+      "Delivered 12+ enterprise and e-commerce applications using Laravel, MySQL, React.js, and REST APIs.",
+      "Built authentication, payments, bookings, and admin dashboard workflows end to end.",
+    ],
+  },
+];
+
 export function AboutModule() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeCareerId, setActiveCareerId] = useState(careerRoles[0].id);
+  const [hoveredCareerId, setHoveredCareerId] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
   const emailId = "ranjithsaivadithya14@gmail.com";
 
   const handleMailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -66,10 +116,10 @@ export function AboutModule() {
         {/* Profile Details & Contact Buttons */}
         <div className="flex-1 flex flex-col z-10 w-full text-center md:text-left pt-2">
           <h3 className="text-3xl md:text-4xl font-black uppercase tracking-widest text-text-primary mb-1">Ranjith Sai Vadithya</h3>
-          <p className="font-mono text-accent-energy font-bold text-xs md:text-sm tracking-widest mb-6 border-b border-text-muted/20 pb-4 inline-block">BACKEND ENGINEER // JAVA | SPRING BOOT | MICROSERVICES</p>
+          <p className="font-mono text-accent-energy font-bold text-xs md:text-sm tracking-widest mb-6 border-b border-text-muted/20 pb-4 inline-block">SR. BACKEND ENGINEER // TECH TEAM LEAD</p>
           
           <p className="text-text-secondary text-sm md:text-base mb-8 leading-relaxed max-w-2xl font-medium">
-            Backend Engineer with nearly 3 years of experience building and maintaining production applications using Java, Spring Boot, Microservices, Laravel, Redis, MySQL, and React. Experienced in designing REST APIs, backend services, personalized feed and recommendation systems, payment and payout workflows, database optimization, caching, and production performance troubleshooting. Hands-on experience building scalable systems and solving backend performance, concurrency, and data-processing challenges in production environments.
+            Senior Software Engineer & Tech Team Lead with nearly 3 years of experience building production applications using Java, Spring Boot, Microservices, Node.js, Laravel, Redis, MySQL, and React. Experienced in designing REST APIs, AI Gateway integrations, backend architecture, technical leadership, code reviews, and delivering features across the full SDLC. Hands-on experience building scalable systems and solving backend performance, concurrency, and data-processing challenges in production environments.
           </p>
 
            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start font-mono text-xs border-l-4 border-accent-primary pl-6 py-2 bg-text-muted/5 rounded-r-lg w-fit">
@@ -156,10 +206,105 @@ export function AboutModule() {
         )}
       </AnimatePresence>
 
-      {/* SEC 1: CAREER & ACADEMICS (RUNNING CAT TIMELINE) */}
-      <section className="relative w-full border border-[#111] overflow-hidden mt-8">
-        <h3 className="font-mono text-xl font-bold uppercase mb-0 border-b border-[#222] pb-4 pt-4 px-6 bg-[#0a0a0a]">SEC_1: Career Timeline</h3>
-        <TimelineSection />
+      {/* SEC 1: CAREER EXPERIENCE — accordion so all roles stay in view */}
+      <section className="relative w-full mt-8">
+        <h3 className="font-mono text-xl font-bold uppercase mb-8 border-b-2 border-text-muted/20 pb-2">SEC_1: Career Timeline</h3>
+        
+        <div className="border border-[#222] bg-surface-card mb-12 overflow-hidden">
+          {careerRoles.map((role, i) => {
+            const isOpen = activeCareerId === role.id;
+            const isHovered = hoveredCareerId === role.id;
+            const showBar = isOpen || isHovered;
+
+            return (
+              <div key={role.id} className={i < careerRoles.length - 1 ? "border-b border-[#222]" : ""}>
+                <motion.button
+                  type="button"
+                  onClick={() => setActiveCareerId(isOpen ? "" : role.id)}
+                  onHoverStart={() => setHoveredCareerId(role.id)}
+                  onHoverEnd={() => setHoveredCareerId(null)}
+                  whileHover={reduceMotion ? undefined : { x: 3 }}
+                  whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+                  className="w-full text-left px-5 md:px-8 py-5 relative outline-none"
+                  style={{
+                    backgroundColor: isHovered && !isOpen ? "rgba(255,255,255,0.02)" : undefined,
+                  }}
+                >
+                  <motion.div
+                    className={`absolute left-0 top-0 bottom-0 w-1 origin-top ${role.bar}`}
+                    initial={false}
+                    animate={{
+                      scaleY: showBar ? 1 : 0,
+                      opacity: isOpen ? 1 : isHovered ? 0.5 : 0,
+                    }}
+                    transition={
+                      reduceMotion
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 320, damping: 28 }
+                    }
+                  />
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                    <div>
+                      <h4 className={`font-black text-lg md:text-xl uppercase tracking-tight ${isOpen ? "text-text-primary" : "text-text-secondary"}`}>
+                        {role.company}
+                      </h4>
+                      <p className={`font-mono text-sm font-bold mt-1 ${isOpen ? role.accent : "text-text-muted"}`}>
+                        {role.title}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="font-mono text-xs text-text-muted md:text-right">
+                        <div>{role.period}</div>
+                        {role.location && <div>{role.location}</div>}
+                      </div>
+                      <motion.span
+                        className={`font-mono text-xs inline-block ${isOpen ? role.accent : "text-text-muted"}`}
+                        animate={reduceMotion ? undefined : { rotate: isOpen ? 180 : 0 }}
+                        transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
+                      >
+                        {isOpen ? "[−]" : "[+]"}
+                      </motion.span>
+                    </div>
+                  </div>
+                </motion.button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                      transition={reduceMotion ? { duration: 0 } : { duration: 0.25 }}
+                      className="overflow-hidden"
+                    >
+                      <ul className="font-mono text-xs md:text-sm text-text-secondary space-y-2 ml-4 list-disc leading-relaxed px-5 md:px-8 pb-6">
+                        {role.bullets.map((bullet, bi) => (
+                          <motion.li
+                            key={bullet}
+                            initial={reduceMotion ? false : { opacity: 0, x: -8 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={
+                              reduceMotion
+                                ? { duration: 0 }
+                                : { delay: 0.04 * bi, duration: 0.2 }
+                            }
+                          >
+                            {bullet}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="relative w-full border border-[#111] overflow-hidden">
+          <h4 className="font-mono text-sm font-bold uppercase mb-0 border-b border-[#222] pb-4 pt-4 px-6 bg-[#0a0a0a] text-text-muted">Milestone Track</h4>
+          <TimelineSection />
+        </div>
       </section>
 
       {/* SEC 2: PROXO SYSTEM DIAGRAM */}
@@ -230,7 +375,7 @@ export function AboutModule() {
               <p className="font-mono text-sm text-text-secondary leading-relaxed">Developed and maintained 12+ enterprise and e-commerce applications using Laravel, MySQL, React.js, and REST APIs across authentication, payments, bookings, and admin operations.</p>
             </motion.div>
 
-            {/* Card 3: Integrations */}
+            {/* Card 3: AI & Integrations */}
             <motion.div 
               className="bg-background-main text-text-primary px-8 py-6 border-b-4 border-accent-secondary shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex flex-col justify-center"
               initial={{ y: 20, opacity: 0 }}
@@ -238,8 +383,8 @@ export function AboutModule() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: 0.3 }}
             >
-              <h4 className="font-black text-xl uppercase mb-2">Pipeline Integrations</h4>
-              <p className="font-mono text-sm text-text-secondary leading-relaxed">Integrated WhatsApp and SMS for transactional notifications and OTP delivery, plus automated settlement workflows with Excel reports, SFTP processing, and IMPS payouts.</p>
+              <h4 className="font-black text-xl uppercase mb-2">AI Gateway & Integrations</h4>
+              <p className="font-mono text-sm text-text-secondary leading-relaxed">Built AI Gateway with Groq/Gemini fallbacks for resume/JD parsing and candidate matching on RonoJobs, plus Zoom OAuth, WhatsApp/SMS notifications, and SFTP/IMPS settlement pipelines.</p>
             </motion.div>
 
             {/* Card 4: Data Layer */}

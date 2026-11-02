@@ -47,8 +47,77 @@ export function ProjectsModule() {
 
       {/* GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        {/* 0. RONOJOBS — AI RECRUITMENT */}
+        <motion.div 
+          id="ronojobs"
+          className="bg-surface-card border border-text-muted/20 p-6 md:p-8 flex flex-col hover:border-accent-warning transition-all duration-300 group cursor-pointer md:col-span-2 relative overflow-hidden"
+          whileHover={{ y: -5, borderColor: '#F59E0B' }}
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(245,158,11,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.03)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none opacity-40" />
+
+          <div className="flex justify-between items-center mb-6 border-b border-text-muted/20 pb-4 relative z-10">
+            <div>
+               <div className="flex flex-wrap items-center gap-3">
+                 <h3 className="font-black text-3xl uppercase tracking-tight text-text-primary">RonoJobs</h3>
+                 <span className="font-mono text-[9px] bg-accent-warning text-black px-2 py-1 font-bold animate-pulse">AI_RUNTIME</span>
+               </div>
+               <span className="font-mono text-xs text-text-secondary mt-1 block">AI-Powered Recruitment Platform</span>
+            </div>
+            <span className="font-mono text-xs bg-accent-warning/10 text-accent-warning px-3 py-1.5 font-bold border border-accent-warning/30">SYS.AI_PLATFORM</span>
+          </div>
+          
+          <div className="flex flex-col md:flex-row gap-8 relative z-10">
+            <div className="flex-1">
+               <p className="font-mono text-sm text-text-primary mb-4 leading-relaxed">
+                 AI-powered recruitment platform built with Node.js, Express.js, and Prisma — covering resume/JD parsing, AI Gateway orchestration, candidate matching, and Zoom interview workflows.
+               </p>
+               
+               <ul className="text-text-secondary font-mono text-[11px] space-y-2 ml-4 list-disc mb-6">
+                 <li>Developed AI-powered resume parsing and job description (JD) parsing workflows to extract structured candidate profiles and job requirements.</li>
+                 <li>Implemented an AI Gateway with provider integration and fallback handling to support AI-powered recruitment features.</li>
+                 <li>Built automated JD auto-fill workflows to simplify job posting creation and reduce manual data entry.</li>
+                 <li>Implemented AI-driven candidate-to-job matching to align candidate skills, experience, and profiles with job requirements.</li>
+                 <li>Integrated Zoom Server-to-Server OAuth for meeting creation and interview-related workflows.</li>
+               </ul>
+
+               <div className="flex flex-wrap gap-2 font-mono text-[10px]">
+                 <span className="bg-[#68A063]/10 text-[#68A063] border border-[#68A063]/30 px-2 py-0.5">Node.js</span>
+                 <span className="bg-text-primary/10 text-text-primary border border-text-primary/30 px-2 py-0.5">Express.js</span>
+                 <span className="bg-[#2D3748]/10 text-[#5B7C99] border border-[#5B7C99]/30 px-2 py-0.5">Prisma</span>
+                 <span className="bg-accent-warning/10 text-accent-warning border border-accent-warning/30 px-2 py-0.5">AI Gateway</span>
+                 <span className="bg-[#F55036]/10 text-[#F55036] border border-[#F55036]/30 px-2 py-0.5">Groq</span>
+                 <span className="bg-[#4285F4]/10 text-[#4285F4] border border-[#4285F4]/30 px-2 py-0.5">Gemini</span>
+                 <span className="bg-[#2D8CFF]/10 text-[#2D8CFF] border border-[#2D8CFF]/30 px-2 py-0.5">Zoom API</span>
+               </div>
+            </div>
+
+            <div className="flex-[0.8] w-full bg-surface-dark border p-4 border-text-muted/10 relative flex flex-col justify-center gap-4">
+               <div className="flex justify-between items-center bg-background-main border border-text-muted/20 p-2 font-mono text-[10px] text-center w-3/4 mx-auto relative z-10">
+                 <span className="text-accent-warning">RECRUIT_PIPELINE</span>
+               </div>
+               
+               <div className="flex justify-around items-center w-full px-2 relative z-10 gap-2">
+                 <div className="bg-accent-warning/10 border border-accent-warning/50 p-2 font-mono text-[9px] text-accent-warning">RESUME</div>
+                 <div className="bg-accent-warning/10 border border-accent-warning/50 p-2 font-mono text-[9px] text-accent-warning">JD_PARSE</div>
+                 <div className="bg-accent-warning/10 border border-accent-warning/50 p-2 font-mono text-[9px] text-accent-warning">MATCH</div>
+               </div>
+
+               <div className="flex justify-between items-center gap-4 w-full mt-2 relative z-10">
+                 <div className="flex-1 bg-[#F55036]/10 border border-[#F55036]/30 p-2 flex items-center justify-between">
+                    <span className="font-mono text-[9px] text-[#F55036]">AI_GATEWAY</span>
+                    <motion.div className="w-1.5 h-1.5 rounded-full bg-[#F55036]" animate={{ opacity: [1, 0.2, 1] }} transition={{ repeat: Infinity, duration: 1 }} />
+                 </div>
+                 <div className="flex-1 bg-[#2D8CFF]/10 border border-[#2D8CFF]/30 p-2 flex items-center justify-between">
+                    <span className="font-mono text-[9px] text-[#2D8CFF]">ZOOM_OAUTH</span>
+                    <motion.div className="w-1.5 h-1.5 bg-[#2D8CFF]" animate={{ scale: [1, 1.5, 1] }} transition={{ repeat: Infinity, duration: 2 }} />
+                 </div>
+               </div>
+            </div>
+          </div>
+        </motion.div>
         
-        {/* 0. PRAXO FLAGSHIP */}
+        {/* 1. PRAXO FLAGSHIP */}
         <motion.div 
           id="praxo"
           className="bg-surface-card border border-text-muted/20 p-6 md:p-8 flex flex-col hover:border-accent-energy transition-all duration-300 group cursor-pointer md:col-span-2 relative overflow-hidden"

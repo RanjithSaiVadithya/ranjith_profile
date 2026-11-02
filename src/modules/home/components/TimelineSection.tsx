@@ -18,6 +18,7 @@ export function TimelineSection() {
     { year: "2022", text: "NODE.ACTIVE: B.Tech Graduated." },
     { year: "2023", text: "DEPLOY: Spider Hit Infotech Pvt Ltd." },
     { year: "2025", text: "SCALE: MudarDzApps Praxo (Microservices)." },
+    { year: "2026", text: "LEAD: Rayudu Group — Sr. SWE & Tech Team Lead." },
   ];
 
   return (

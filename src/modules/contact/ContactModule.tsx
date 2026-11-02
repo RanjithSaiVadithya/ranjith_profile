@@ -96,24 +96,24 @@ export function ContactModule() {
 
   const pastWorks = [
     {
+      title: "Rayudu Group",
+      role: "Sr. SWE & Tech Team Lead",
+      tech: "Backend Architecture & Leadership",
+      desc: "Lead technical development, scalable backend services, REST APIs, code reviews, and cross-functional delivery across the SDLC.",
+      icon: <Server className="w-5 h-5 text-accent-energy" />
+    },
+    {
       title: "MudarDzApps Praxo",
       role: "Software Engineer",
       tech: "Java Spring Boot & Redis",
       desc: "Spring Boot microservices for creator scoring, rewards, payouts, Redis-backed personalized feeds, and IMPS settlement workflows.",
-      icon: <Database className="w-5 h-5 text-accent-energy" />
+      icon: <Database className="w-5 h-5 text-accent-primary" />
     },
     {
-      title: "Spider Hit Infotech",
-      role: "Software Developer",
-      tech: "Laravel & React",
-      desc: "Delivered 12+ enterprise and e-commerce apps with REST APIs, payments, bookings, and React admin dashboards.",
-      icon: <Server className="w-5 h-5 text-accent-primary" />
-    },
-    {
-      title: "Ride Wheels & AIC Portal",
-      role: "Backend / Full Stack",
-      tech: "Laravel / MySQL / React",
-      desc: "Vehicle rental APIs with WhatsApp/SMS workflows, plus an incubation management portal with admin analytics.",
+      title: "RonoJobs",
+      role: "Backend / AI Platform",
+      tech: "Node.js / Prisma / AI Gateway",
+      desc: "AI-powered recruitment platform with resume/JD parsing, candidate matching, and Zoom OAuth interview workflows.",
       icon: <Code2 className="w-5 h-5 text-accent-secondary" />
     }
   ];

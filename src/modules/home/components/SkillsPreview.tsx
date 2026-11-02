@@ -8,19 +8,19 @@ export function SkillsPreview() {
       title: "SYS.BACKEND",
       color: "border-accent-primary",
       bgCol: "bg-accent-primary",
-      skills: ["Java", "Spring Boot", "Microservices", "Laravel", "REST APIs", "Async Processing"]
+      skills: ["Java / Spring Boot", "Node.js / Express.js", "Microservices", "Laravel / PHP", "REST APIs", "Prisma ORM"]
     },
     {
-      title: "SYS.FRONTEND",
+      title: "SYS.AI_FRONT",
       color: "border-accent-energy",
       bgCol: "bg-accent-energy",
-      skills: ["React.js", "Next.js", "JavaScript", "Tailwind CSS", "Bootstrap", "HTML5 / CSS3"]
+      skills: ["AI Gateway / LLMs", "Groq / Gemini", "Zoom API / OAuth 2.0", "React.js / Next.js", "Tailwind / Bootstrap", "JavaScript"]
     },
     {
       title: "SYS.DATA_INFRA",
       color: "border-[#475569]",
       bgCol: "bg-[#475569]",
-      skills: ["MySQL", "Redis", "Query Optimization", "AWS EC2 / S3 / RDS", "SFTP / SSH", "Caching"]
+      skills: ["MySQL / Redis", "Database Design", "Query Optimization", "AWS EC2 / S3 / RDS", "Clean Arch / MVC", "Tech Leadership"]
     }
   ];
 

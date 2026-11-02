@@ -1,81 +1,176 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export function ProjectPreview() {
   const router = useRouter();
+  const reduceMotion = useReducedMotion();
 
   const projects = [
-    { title: "Praxo", stack: "Java • Spring Boot • Redis", role: "Backend Architecture", desc: "Short-video social platform with creator scoring, rewards, payouts, and a Redis-backed personalized feed and recommendation system." },
-    { title: "Ride Wheels", stack: "Laravel • React • MySQL", role: "Backend / Full Stack", desc: "Vehicle rental APIs for listing, booking, scheduling, pricing, payments, referrals, WhatsApp notifications, and SMS OTP auth." },
-    { title: "Pet Care E-Comm", stack: "Laravel • Razorpay", role: "Full Stack", desc: "End-to-end e-commerce platform processing dynamic pricing logic, smart product variations, and precise inventory." },
-    { title: "Atal Incubation", stack: "Laravel • MySQL • Bootstrap", role: "Full Stack", desc: "Incubation management portal for programs, startups, events, blogs, admin charts, document management, and email alerts." },
-    { title: "Pallaki Events", stack: "Laravel • React.js", role: "Full Stack", desc: "Tri-panel platform actively orchestrating bookings, analytics, and service mapping for isolated vendor and user entities." },
-    { title: "RightWay Bio Pharma", stack: "Laravel • MySQL", role: "Full Stack", desc: "Pharmaceutical catalog rendering dynamically managed products seamlessly across a lightweight custom CMS." },
+    {
+      title: "RonoJobs",
+      stack: "Node.js • Prisma • AI Gateway",
+      focus: "AI Systems Design",
+      desc: "Recruitment platform engineered around AI orchestration — structured resume/JD parsing, provider failover, and interview automation.",
+      points: [
+        "AI Gateway with Groq / Gemini fallback routing",
+        "Resume & JD parsing into structured profiles",
+        "Skill-based candidate-to-job matching engine",
+        "Zoom Server-to-Server OAuth for interviews",
+      ],
+    },
+    {
+      title: "Praxo",
+      stack: "Java • Spring Boot • Redis",
+      focus: "Distributed Systems",
+      desc: "Short-video creator platform built as Spring Boot microservices with Redis-backed feeds and production settlement pipelines.",
+      points: [
+        "Creator scoring, rewards & payout workflows",
+        "Redis personalized feed & recommendations",
+        "Async engagement processing on AWS EC2",
+        "SFTP / IMPS settlement automation (~25% DB cut)",
+      ],
+    },
+    {
+      title: "Ride Wheels",
+      stack: "Laravel • React • MySQL",
+      focus: "API Architecture",
+      desc: "Vehicle rental ecosystem with dual mobile apps — booking, pricing, payments, and real-time communication layers.",
+      points: [
+        "Listing, search, booking & scheduling APIs",
+        "Referral rewards and coupon eligibility engine",
+        "WhatsApp status updates + SMS OTP auth",
+        "RBAC for customers, owners & admin portal",
+      ],
+    },
+    {
+      title: "Pet Care E-Comm",
+      stack: "Laravel • Razorpay",
+      focus: "Commerce Systems",
+      desc: "E-commerce engine with variant-aware catalog logic, live inventory controls, and secure payment checkout.",
+      points: [
+        "Smart brand / variant sorting algorithms",
+        "Live inventory & stock integrity rules",
+        "Razorpay payment gateway integration",
+        "Admin workflows for catalog operations",
+      ],
+    },
+    {
+      title: "Atal Incubation",
+      stack: "Laravel • MySQL • Bootstrap",
+      focus: "Platform Engineering",
+      desc: "Incubation management portal for startup cohorts — programs, events, documents, and operational analytics.",
+      points: [
+        "Program & startup cohort management",
+        "Admin charts, reports & search tooling",
+        "Document storage with email alerts",
+        "Event / blog / notification pipelines",
+      ],
+    },
+    {
+      title: "Pallaki Events",
+      stack: "Laravel • React.js",
+      focus: "System Design",
+      desc: "Multi-role event booking system isolating user, vendor, and admin domains with secure access boundaries.",
+      points: [
+        "Tri-panel dashboards (user / vendor / admin)",
+        "Lead tracking & service inquiry flows",
+        "Role-restricted access control model",
+        "Real-time booking state orchestration",
+      ],
+    },
   ];
 
   return (
-    <div className="sticky top-0 h-[100dvh] w-full bg-[#050505] flex flex-col items-center justify-center relative shadow-[0_-20px_40px_rgba(0,0,0,0.9)] border-t-2 border-[#222] z-20">
-      <div className="max-w-6xl w-full px-6 md:px-8">
-        <div className="flex justify-between items-end mb-8 md:mb-12 pb-2 border-b-2 border-[#333]">
-           <motion.h2 
-             className="text-[#94a3b8] font-mono text-2xl md:text-4xl uppercase tracking-widest mb-8 md:mb-16 pb-2 border-b-2 border-surface-card"
-             initial={{ opacity: 0, x: -20 }}
-             whileInView={{ opacity: 1, x: 0 }}
-             viewport={{ once: true }}
-           >
-             02 // SYS_PROJECTS
-           </motion.h2>
-           <button onClick={() => router.push('/projects')} className="hidden md:block text-accent-energy font-mono text-xs hover:text-white transition-colors uppercase tracking-widest">
-             [ VIEW_ALL_SYSTEMS ]
-           </button>
+    <div className="sticky top-0 h-[100dvh] w-full bg-[#050505] flex flex-col relative shadow-[0_-20px_40px_rgba(0,0,0,0.9)] border-t-2 border-[#222] z-20 overflow-hidden">
+      <div className="max-w-6xl w-full mx-auto px-5 md:px-8 flex flex-col flex-1 min-h-0 py-4 md:py-5">
+        <div className="flex justify-between items-end pb-2 border-b border-[#333] shrink-0 mb-3 md:mb-4">
+          <motion.h2
+            className="text-[#94a3b8] font-mono text-xl md:text-3xl uppercase tracking-widest"
+            initial={reduceMotion ? false : { opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={reduceMotion ? { duration: 0 } : undefined}
+          >
+            02 // SYS_PROJECTS
+          </motion.h2>
+          <button
+            onClick={() => router.push("/projects")}
+            className="hidden md:block text-accent-energy font-mono text-xs hover:text-white transition-colors uppercase tracking-widest pb-0.5"
+          >
+            [ VIEW_ALL_SYSTEMS ]
+          </button>
         </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-h-[65vh] overflow-y-auto overflow-x-hidden pr-2 custom-scrollbar pb-6">
-            {projects.map((proj, i) => (
-              <motion.div 
-                key={proj.title}
-                className="w-full bg-[#0a0a0a] border-2 border-[#1a1a1a] p-6 relative group cursor-pointer transition-colors hover:border-accent-primary flex flex-col justify-between min-h-[220px]"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                onClick={() => router.push('/projects')}
-              >
-                {/* Background Hover Glow */}
-                <div className="absolute inset-0 bg-accent-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                
-                <div className="z-10 relative">
-                   <div className="font-mono text-[10px] text-text-muted bg-white/5 inline-block px-2 py-1 mb-4 border border-[#333] group-hover:border-accent-primary/50 group-hover:text-accent-primary transition-colors">
-                     {proj.stack}
-                   </div>
-                   
-                   <h3 className="text-white text-xl md:text-2xl font-black uppercase tracking-tight mb-2 group-hover:text-accent-energy transition-colors">
-                     {proj.title}
-                   </h3>
-                   
-                   <p className="font-mono text-[#777] text-xs leading-relaxed line-clamp-3">
-                     {proj.desc}
-                   </p>
+        <div className="flex-1 min-h-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 content-stretch">
+          {projects.map((proj, i) => (
+            <motion.div
+              key={proj.title}
+              className={`w-full h-full bg-[#0a0a0a] border-2 border-[#1a1a1a] p-4 md:p-5 relative group cursor-pointer transition-colors hover:border-accent-primary flex-col ${
+                i >= 3 ? "hidden sm:flex" : "flex"
+              }`}
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={
+                reduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.3, delay: Math.min(i * 0.05, 0.25) }
+              }
+              whileHover={reduceMotion ? undefined : { y: -2 }}
+              onClick={() => router.push("/projects")}
+            >
+              <div className="absolute inset-0 bg-accent-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+              <div className="z-10 relative flex flex-col h-full">
+                <div className="flex flex-wrap items-center gap-2 mb-2.5">
+                  <span className="font-mono text-[9px] md:text-[10px] text-text-muted bg-white/5 px-2 py-0.5 border border-[#333] group-hover:border-accent-primary/50 group-hover:text-accent-primary transition-colors">
+                    {proj.stack}
+                  </span>
+                  <span className="font-mono text-[9px] md:text-[10px] text-accent-energy/90 border border-accent-energy/30 px-2 py-0.5 uppercase tracking-wide">
+                    {proj.focus}
+                  </span>
                 </div>
 
-                <div className="z-10 relative mt-6 w-full border-t border-[#222] pt-4 flex justify-between items-center group-hover:border-accent-primary/20 transition-colors">
-                   <span className="font-mono text-[10px] text-[#444] uppercase">{proj.role}</span>
-                   <span className="text-accent-energy font-mono text-xs opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
-                     INIT &rarr;
-                   </span>
+                <h3 className="text-white text-lg md:text-xl font-black uppercase tracking-tight mb-2 group-hover:text-accent-energy transition-colors">
+                  {proj.title}
+                </h3>
+
+                <p className="font-mono text-[#888] text-xs leading-relaxed mb-3">
+                  {proj.desc}
+                </p>
+
+                <ul className="font-mono text-[11px] text-[#666] space-y-1.5 flex-1">
+                  {proj.points.map((point) => (
+                    <li key={point} className="flex gap-2 leading-snug">
+                      <span className="text-accent-energy shrink-0 mt-0.5">▸</span>
+                      <span className="group-hover:text-[#999] transition-colors">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-auto pt-3 w-full border-t border-[#222] flex justify-between items-center group-hover:border-accent-primary/20 transition-colors">
+                  <span className="font-mono text-[9px] text-[#444] uppercase tracking-widest">
+                    {proj.focus}
+                  </span>
+                  <span className="text-accent-energy font-mono text-xs opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
+                    INIT &rarr;
+                  </span>
                 </div>
-              </motion.div>
-            ))}
-         </div>
-         
-         {/* Mobile view button fallback */}
-         <div className="mt-6 w-full flex justify-center md:hidden">
-           <button onClick={() => router.push('/projects')} className="text-accent-energy font-mono text-xs hover:text-white transition-colors uppercase tracking-widest border border-accent-energy/30 px-6 py-3 w-full">
-             [ VIEW_ALL_SYSTEMS ]
-           </button>
-         </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="mt-3 w-full flex justify-center sm:hidden shrink-0">
+          <button
+            onClick={() => router.push("/projects")}
+            className="text-accent-energy font-mono text-xs hover:text-white transition-colors uppercase tracking-widest border border-accent-energy/30 px-6 py-2.5 w-full"
+          >
+            [ VIEW_ALL_SYSTEMS ]
+          </button>
+        </div>
       </div>
     </div>
   );
